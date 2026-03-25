@@ -95,6 +95,22 @@ body {
   body {
     @apply bg-background text-foreground antialiased;
   }
+
+  button:not(:disabled),
+  [role='button']:not([aria-disabled='true']),
+  a[href],
+  summary,
+  label:has(input[type='checkbox']),
+  label:has(input[type='radio']),
+  input[type='checkbox']:not(:disabled),
+  input[type='radio']:not(:disabled) {
+    cursor: pointer;
+  }
+
+  button:disabled,
+  [aria-disabled='true'] {
+    cursor: not-allowed;
+  }
 }
 
 /* Custom checkbox accent */
@@ -119,6 +135,10 @@ input[type='checkbox'] {
 
 /* Dot pattern background */
 .dot-bg {
-  background-image: radial-gradient(circle, var(--border) 0.75px, transparent 0.75px);
+  background-image: radial-gradient(
+    circle,
+    var(--border) 0.75px,
+    transparent 0.75px
+  );
   background-size: 20px 20px;
 }
