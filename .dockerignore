@@ -1,0 +1,40 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+dist-ssr/
+.output/
+.nitro/
+.tanstack/
+.vinxi/
+.wrangler/
+.vite/
+coverage/
+
+# Local files
+.env
+.env.*
+*.local
+*.log
+
+# VCS / editor
+.git/
+.gitignore
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Python artifacts
+__pycache__/
+*.py[cod]
+
+# Runtime / temp
+tmp/
+temp/
+.cache/
+todos.json
+
+# Docs and misc
+README.md

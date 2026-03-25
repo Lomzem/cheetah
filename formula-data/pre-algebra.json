@@ -1,0 +1,137 @@
+{
+  "id": "pre-algebra",
+  "name": "PRE-ALGEBRA",
+  "categories": [
+    {
+      "id": "order-of-operations-pemdas",
+      "name": "Order of Operations (PEMDAS)",
+      "formulas": [
+        {
+          "id": "pre-algebra-order-of-operations-pemdas-pemdas-definition",
+          "name": "PEMDAS Definition",
+          "latex": "\\text{Parentheses} \\to \\text{Exponents} \\to \\text{Multiply/Divide} \\to \\text{Add/Subtract}"
+        }
+      ]
+    },
+    {
+      "id": "fractions",
+      "name": "Fractions",
+      "formulas": [
+        {
+          "id": "pre-algebra-fractions-addition",
+          "name": "Addition",
+          "latex": "\\frac{a}{b}+\\frac{c}{d}=\\frac{ad+bc}{bd}"
+        },
+        {
+          "id": "pre-algebra-fractions-subtraction",
+          "name": "Subtraction",
+          "latex": "\\frac{a}{b}-\\frac{c}{d}=\\frac{ad-bc}{bd}"
+        },
+        {
+          "id": "pre-algebra-fractions-multiplication",
+          "name": "Multiplication",
+          "latex": "\\frac{a}{b}\\cdot\\frac{c}{d}=\\frac{ac}{bd}"
+        },
+        {
+          "id": "pre-algebra-fractions-division",
+          "name": "Division",
+          "latex": "\\frac{a}{b}\\div\\frac{c}{d}=\\frac{a}{b}\\cdot\\frac{d}{c}=\\frac{ad}{bc}"
+        }
+      ]
+    },
+    {
+      "id": "ratios-and-proportions",
+      "name": "Ratios and Proportions",
+      "formulas": [
+        {
+          "id": "pre-algebra-ratios-and-proportions-proportion",
+          "name": "Proportion",
+          "latex": "\\frac{a}{b}=\\frac{c}{d}\\implies ad=bc"
+        },
+        {
+          "id": "pre-algebra-ratios-and-proportions-unit-rate",
+          "name": "Unit Rate",
+          "latex": "\\text{Unit Rate}=\\frac{\\text{Total}}{\\text{Number of Units}}"
+        }
+      ]
+    },
+    {
+      "id": "properties-of-numbers",
+      "name": "Properties of Numbers",
+      "formulas": [
+        {
+          "id": "pre-algebra-properties-of-numbers-commutative",
+          "name": "Commutative",
+          "latex": "a+b=b+a"
+        },
+        {
+          "id": "pre-algebra-properties-of-numbers-associative",
+          "name": "Associative",
+          "latex": "(a+b)+c=a+(b+c)"
+        },
+        {
+          "id": "pre-algebra-properties-of-numbers-distributive",
+          "name": "Distributive",
+          "latex": "a(b+c)=ab+ac"
+        },
+        {
+          "id": "pre-algebra-properties-of-numbers-identity",
+          "name": "Identity",
+          "latex": "a+0=a"
+        },
+        {
+          "id": "pre-algebra-properties-of-numbers-inverse",
+          "name": "Inverse",
+          "latex": "a+(-a)=0"
+        }
+      ]
+    },
+    {
+      "id": "area-and-perimeter",
+      "name": "Area and Perimeter",
+      "formulas": [
+        {
+          "id": "pre-algebra-area-and-perimeter-rectangle-area-perimeter",
+          "name": "Rectangle Area/Perimeter",
+          "latex": "A_{\\text{rect}}=lw \\quad\\quad P_{\\text{rect}}=2l+2w"
+        },
+        {
+          "id": "pre-algebra-area-and-perimeter-triangle-area",
+          "name": "Triangle Area",
+          "latex": "A_{\\text{tri}}=\\frac{1}{2}bh"
+        },
+        {
+          "id": "pre-algebra-area-and-perimeter-circle-area-circumference",
+          "name": "Circle Area/Circumference",
+          "latex": "A_{\\text{circle}}=\\pi r^2 \\quad\\quad C=2\\pi r"
+        },
+        {
+          "id": "pre-algebra-area-and-perimeter-rectangular-prism-volume",
+          "name": "Rectangular Prism Volume",
+          "latex": "V_{\\text{rect prism}}=lwh"
+        }
+      ]
+    },
+    {
+      "id": "solving-equations",
+      "name": "Solving Equations",
+      "formulas": [
+        {
+          "id": "pre-algebra-solving-equations-linear-solution",
+          "name": "Linear Solution",
+          "latex": "ax+b=c \\implies x=\\frac{c-b}{a}"
+        },
+        {
+          "id": "pre-algebra-solving-equations-absolute-value",
+          "name": "Absolute Value",
+          "latex": "|x|=a \\implies x=a \\text{ or } x=-a"
+        },
+        {
+          "id": "pre-algebra-solving-equations-transitive-property",
+          "name": "Transitive Property",
+          "latex": "\\text{If } a=b \\text{ and } b=c, \\text{ then } a=c"
+        }
+      ]
+    }
+  ]
+}

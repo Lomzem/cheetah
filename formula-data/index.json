@@ -1,0 +1,32 @@
+{
+  "classes": [
+    {
+      "id": "pre-algebra",
+      "name": "PRE-ALGEBRA",
+      "file": "pre-algebra.json",
+      "categoryCount": 6,
+      "formulaCount": 19
+    },
+    {
+      "id": "algebra-i",
+      "name": "ALGEBRA I",
+      "file": "algebra-i.json",
+      "categoryCount": 12,
+      "formulaCount": 48
+    },
+    {
+      "id": "algebra-ii",
+      "name": "ALGEBRA II",
+      "file": "algebra-ii.json",
+      "categoryCount": 8,
+      "formulaCount": 35
+    },
+    {
+      "id": "geometry",
+      "name": "GEOMETRY",
+      "file": "geometry.json",
+      "categoryCount": 12,
+      "formulaCount": 56
+    }
+  ]
+}

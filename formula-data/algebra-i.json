@@ -1,0 +1,318 @@
+{
+  "id": "algebra-i",
+  "name": "ALGEBRA I",
+  "categories": [
+    {
+      "id": "linear-equations",
+      "name": "Linear Equations",
+      "formulas": [
+        {
+          "id": "algebra-i-linear-equations-slope-formula",
+          "name": "Slope Formula",
+          "latex": "m=\\frac{y_2-y_1}{x_2-x_1}"
+        },
+        {
+          "id": "algebra-i-linear-equations-point-slope-form",
+          "name": "Point-Slope Form",
+          "latex": "y-y_1=m(x-x_1)"
+        },
+        {
+          "id": "algebra-i-linear-equations-slope-intercept-form",
+          "name": "Slope-Intercept Form",
+          "latex": "y=mx+b"
+        },
+        {
+          "id": "algebra-i-linear-equations-standard-form",
+          "name": "Standard Form",
+          "latex": "Ax+By=C"
+        }
+      ]
+    },
+    {
+      "id": "inequalities",
+      "name": "Inequalities",
+      "formulas": [
+        {
+          "id": "algebra-i-inequalities-multiply-by-positive",
+          "name": "Multiply by Positive",
+          "latex": "\\text{If } a>b \\text{ and } c>0, \\text{ then } ac>bc"
+        },
+        {
+          "id": "algebra-i-inequalities-multiply-by-negative",
+          "name": "Multiply by Negative",
+          "latex": "\\text{If } a>b \\text{ and } c<0, \\text{ then } ac<bc"
+        },
+        {
+          "id": "algebra-i-inequalities-absolute-less-than",
+          "name": "Absolute Less Than",
+          "latex": "|x|<a \\implies -a<x<a"
+        },
+        {
+          "id": "algebra-i-inequalities-absolute-greater-than",
+          "name": "Absolute Greater Than",
+          "latex": "|x|>a \\implies x>a \\text{ or } x<-a"
+        }
+      ]
+    },
+    {
+      "id": "integer-rules",
+      "name": "Integer Rules",
+      "formulas": [
+        {
+          "id": "algebra-i-integer-rules-positive-x-positive",
+          "name": "Positive x Positive",
+          "latex": "(+)(+)=+"
+        },
+        {
+          "id": "algebra-i-integer-rules-negative-x-negative",
+          "name": "Negative x Negative",
+          "latex": "(-)(-)=+"
+        },
+        {
+          "id": "algebra-i-integer-rules-positive-x-negative",
+          "name": "Positive x Negative",
+          "latex": "(+)(-)=-"
+        },
+        {
+          "id": "algebra-i-integer-rules-negative-x-positive",
+          "name": "Negative x Positive",
+          "latex": "(-)(+)=-"
+        },
+        {
+          "id": "algebra-i-integer-rules-subtracting-negatives",
+          "name": "Subtracting Negatives",
+          "latex": "a-(-b)=a+b"
+        }
+      ]
+    },
+    {
+      "id": "decimals-and-percents",
+      "name": "Decimals and Percents",
+      "formulas": [
+        {
+          "id": "algebra-i-decimals-and-percents-percent-formula",
+          "name": "Percent Formula",
+          "latex": "\\text{Percent}=\\frac{\\text{Part}}{\\text{Whole}}\\times 100"
+        },
+        {
+          "id": "algebra-i-decimals-and-percents-part-formula",
+          "name": "Part Formula",
+          "latex": "\\text{Part}=\\text{Whole}\\times\\frac{\\text{Percent}}{100}"
+        },
+        {
+          "id": "algebra-i-decimals-and-percents-decimal-to-percent",
+          "name": "Decimal to Percent",
+          "latex": "\\text{Decimal to Percent: move decimal 2 places right}"
+        },
+        {
+          "id": "algebra-i-decimals-and-percents-percent-to-decimal",
+          "name": "Percent to Decimal",
+          "latex": "\\text{Percent to Decimal: move decimal 2 places left}"
+        }
+      ]
+    },
+    {
+      "id": "mean-median-mode",
+      "name": "Mean, Median, Mode",
+      "formulas": [
+        {
+          "id": "algebra-i-mean-median-mode-mean",
+          "name": "Mean",
+          "latex": "\\text{Mean}=\\frac{\\text{Sum of values}}{\\text{Number of values}}"
+        },
+        {
+          "id": "algebra-i-mean-median-mode-median",
+          "name": "Median",
+          "latex": "\\text{Median: middle value when sorted}"
+        },
+        {
+          "id": "algebra-i-mean-median-mode-mode",
+          "name": "Mode",
+          "latex": "\\text{Mode: most frequently occurring value}"
+        }
+      ]
+    },
+    {
+      "id": "quadratic-equations",
+      "name": "Quadratic Equations",
+      "formulas": [
+        {
+          "id": "algebra-i-quadratic-equations-standard-form",
+          "name": "Standard Form",
+          "latex": "ax^2+bx+c=0"
+        },
+        {
+          "id": "algebra-i-quadratic-equations-quadratic-formula",
+          "name": "Quadratic Formula",
+          "latex": "x=\\frac{-b\\pm\\sqrt{b^2-4ac}}{2a}"
+        },
+        {
+          "id": "algebra-i-quadratic-equations-vertex-form",
+          "name": "Vertex Form",
+          "latex": "y=a(x-h)^2+k"
+        },
+        {
+          "id": "algebra-i-quadratic-equations-axis-of-symmetry",
+          "name": "Axis of Symmetry",
+          "latex": "x=-\\frac{b}{2a}"
+        }
+      ]
+    },
+    {
+      "id": "polynomials",
+      "name": "Polynomials",
+      "formulas": [
+        {
+          "id": "algebra-i-polynomials-perfect-square-addition",
+          "name": "Perfect Square (Addition)",
+          "latex": "(a+b)^2=a^2+2ab+b^2"
+        },
+        {
+          "id": "algebra-i-polynomials-perfect-square-subtraction",
+          "name": "Perfect Square (Subtraction)",
+          "latex": "(a-b)^2=a^2-2ab+b^2"
+        },
+        {
+          "id": "algebra-i-polynomials-difference-of-squares",
+          "name": "Difference of Squares",
+          "latex": "a^2-b^2=(a-b)(a+b)"
+        },
+        {
+          "id": "algebra-i-polynomials-foil",
+          "name": "FOIL",
+          "latex": "(a+b)(c+d)=ac+ad+bc+bd"
+        }
+      ]
+    },
+    {
+      "id": "exponents",
+      "name": "Exponents",
+      "formulas": [
+        {
+          "id": "algebra-i-exponents-product-rule",
+          "name": "Product Rule",
+          "latex": "a^m a^n = a^{m+n}"
+        },
+        {
+          "id": "algebra-i-exponents-quotient-rule",
+          "name": "Quotient Rule",
+          "latex": "\\frac{a^m}{a^n}=a^{m-n}"
+        },
+        {
+          "id": "algebra-i-exponents-power-rule",
+          "name": "Power Rule",
+          "latex": "(a^m)^n=a^{mn}"
+        },
+        {
+          "id": "algebra-i-exponents-negative-exponent",
+          "name": "Negative Exponent",
+          "latex": "a^{-n}=\\frac{1}{a^n}"
+        },
+        {
+          "id": "algebra-i-exponents-zero-exponent",
+          "name": "Zero Exponent",
+          "latex": "a^0=1"
+        },
+        {
+          "id": "algebra-i-exponents-radical-to-exponent",
+          "name": "Radical to Exponent",
+          "latex": "\\sqrt[n]{a^m}=a^{m/n}"
+        }
+      ]
+    },
+    {
+      "id": "radicals",
+      "name": "Radicals",
+      "formulas": [
+        {
+          "id": "algebra-i-radicals-product-rule",
+          "name": "Product Rule",
+          "latex": "\\sqrt{ab}=\\sqrt{a}\\cdot\\sqrt{b}"
+        },
+        {
+          "id": "algebra-i-radicals-quotient-rule",
+          "name": "Quotient Rule",
+          "latex": "\\sqrt{\\frac{a}{b}}=\\frac{\\sqrt{a}}{\\sqrt{b}}"
+        },
+        {
+          "id": "algebra-i-radicals-like-radicals",
+          "name": "Like Radicals",
+          "latex": "a\\sqrt{b}+c\\sqrt{b}=(a+c)\\sqrt{b}"
+        },
+        {
+          "id": "algebra-i-radicals-square-of-square-root",
+          "name": "Square of Square Root",
+          "latex": "(\\sqrt{a})^2=a"
+        }
+      ]
+    },
+    {
+      "id": "functions",
+      "name": "Functions",
+      "formulas": [
+        {
+          "id": "algebra-i-functions-function-notation",
+          "name": "Function Notation",
+          "latex": "f(x)=y"
+        },
+        {
+          "id": "algebra-i-functions-domain",
+          "name": "Domain",
+          "latex": "\\text{Domain: all valid input } x \\text{ values}"
+        },
+        {
+          "id": "algebra-i-functions-range",
+          "name": "Range",
+          "latex": "\\text{Range: all output } y \\text{ values}"
+        },
+        {
+          "id": "algebra-i-functions-vertical-line-test",
+          "name": "Vertical Line Test",
+          "latex": "\\text{Vertical Line Test: each } x \\to \\text{one } y"
+        }
+      ]
+    },
+    {
+      "id": "absolute-value",
+      "name": "Absolute Value",
+      "formulas": [
+        {
+          "id": "algebra-i-absolute-value-definition",
+          "name": "Definition",
+          "latex": "|a| =\\begin{cases} a & a \\ge 0 \\\\ -a & a < 0 \\end{cases}"
+        },
+        {
+          "id": "algebra-i-absolute-value-product",
+          "name": "Product",
+          "latex": "|a \\cdot b| = |a||b|"
+        },
+        {
+          "id": "algebra-i-absolute-value-quotient",
+          "name": "Quotient",
+          "latex": "\\left|\\frac{a}{b}\\right| = \\frac{|a|}{|b|}"
+        },
+        {
+          "id": "algebra-i-absolute-value-triangle-inequality",
+          "name": "Triangle Inequality",
+          "latex": "|a+b| \\le |a| + |b|"
+        }
+      ]
+    },
+    {
+      "id": "rational-expressions",
+      "name": "Rational Expressions",
+      "formulas": [
+        {
+          "id": "algebra-i-rational-expressions-multiplication",
+          "name": "Multiplication",
+          "latex": "\\left(\\frac{a}{b}\\right)\\left(\\frac{c}{d}\\right)=\\frac{ac}{bd}"
+        },
+        {
+          "id": "algebra-i-rational-expressions-division",
+          "name": "Division",
+          "latex": "\\left(\\frac{a}{b}\\right)\\div\\left(\\frac{c}{d}\\right)=\\left(\\frac{a}{b}\\right)\\left(\\frac{d}{c}\\right)=\\frac{ad}{bc}"
+        }
+      ]
+    }
+  ]
+}
