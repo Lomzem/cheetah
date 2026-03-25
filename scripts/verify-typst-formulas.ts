@@ -1,6 +1,7 @@
 import { readFile } from 'node:fs/promises'
 import path from 'node:path'
-import wasm from '@myriaddreamin/typst-ts-web-compiler/wasm'
+import { pathToFileURL } from 'node:url'
+import wasmUrl from '@myriaddreamin/typst-ts-web-compiler/wasm?url'
 import { createTypstCompiler, loadFonts } from '@myriaddreamin/typst.ts'
 import { CompileFormatEnum } from '@myriaddreamin/typst.ts/compiler'
 import { renderFormula } from '#/lib/typst/document'
@@ -27,7 +28,7 @@ const files = [
 const compiler = createTypstCompiler()
 
 await compiler.init({
-  getModule: () => new URL(`file://${wasm}`),
+  getModule: () => pathToFileURL(wasmUrl).href,
   beforeBuild: [loadFonts([], { assets: ['text'] })],
 })
 

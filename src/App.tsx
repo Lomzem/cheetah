@@ -119,7 +119,8 @@ function downloadBlob(blob: Blob, fileName: string) {
 }
 
 function bytesToBlob(bytes: Uint8Array, type: string) {
-  return new Blob([bytes], { type })
+  const copy = new Uint8Array(bytes)
+  return new Blob([copy.buffer], { type })
 }
 
 function buildCompileRequest(draft: SheetDraft): CompileRequest {

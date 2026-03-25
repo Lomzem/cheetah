@@ -93,7 +93,7 @@ self.onmessage = async (event: MessageEvent<CompileMessage>) => {
       pdfData,
     }
 
-    self.postMessage(message, [pdfData])
+    postMessage(message, { transfer: [pdfData] })
   } catch (error) {
     self.postMessage(toErrorMessage(id, error))
   }
