@@ -1,4 +1,3 @@
-import { createCollection, localStorageCollectionOptions } from '@tanstack/db'
 import { useCallback, useEffect, useState } from 'react'
 import { z } from 'zod'
 
@@ -36,14 +35,7 @@ export const defaultSheetDraft: SheetDraft = {
   updatedAt: new Date(0).toISOString(),
 }
 
-export const sheetDraftCollection = createCollection(
-  localStorageCollectionOptions({
-    id: 'sheet-draft',
-    storageKey: 'cheetah-sheet-draft',
-    getKey: (item) => item.id,
-    schema: sheetDraftSchema,
-  }),
-)
+const SHEET_DRAFT_STORAGE_KEY = 'cheetah-sheet-draft'
 
 export function buildNextDraft(
   currentDraft: SheetDraft | undefined,
@@ -57,8 +49,32 @@ export function buildNextDraft(
   }
 }
 
+function parseStoredDraft(value: string | null) {
+  if (!value) {
+    return defaultSheetDraft
+  }
+
+  try {
+    return sheetDraftSchema.parse(JSON.parse(value))
+  } catch {
+    return defaultSheetDraft
+  }
+}
+
 function readActiveDraft() {
-  return sheetDraftCollection.get('active') ?? defaultSheetDraft
+  if (typeof window === 'undefined') {
+    return defaultSheetDraft
+  }
+
+  return parseStoredDraft(window.localStorage.getItem(SHEET_DRAFT_STORAGE_KEY))
+}
+
+function writeActiveDraft(draft: SheetDraft) {
+  if (typeof window === 'undefined') {
+    return
+  }
+
+  window.localStorage.setItem(SHEET_DRAFT_STORAGE_KEY, JSON.stringify(draft))
 }
 
 export function useSheetDraft() {
@@ -67,38 +83,38 @@ export function useSheetDraft() {
 
   useEffect(() => {
     const existingDraft = readActiveDraft()
-
-    if (!sheetDraftCollection.get('active')) {
-      sheetDraftCollection.insert(defaultSheetDraft)
-    }
-
     setDraft(existingDraft)
     setReady(true)
 
-    const subscription = sheetDraftCollection.subscribeChanges(() => {
-      setDraft(readActiveDraft())
-    })
+    if (existingDraft === defaultSheetDraft) {
+      writeActiveDraft(defaultSheetDraft)
+    }
+
+    function handleStorage(event: StorageEvent) {
+      if (event.key !== SHEET_DRAFT_STORAGE_KEY) {
+        return
+      }
+
+      setDraft(parseStoredDraft(event.newValue))
+    }
+
+    window.addEventListener('storage', handleStorage)
 
     return () => {
-      subscription.unsubscribe()
+      window.removeEventListener('storage', handleStorage)
     }
   }, [])
 
-  const persistDraft = useCallback(function persistDraft(
-    updates: Partial<Omit<SheetDraft, 'id' | 'updatedAt'>>,
-  ) {
-    const currentDraft = readActiveDraft()
-    const nextDraft = buildNextDraft(currentDraft, updates)
+  const persistDraft = useCallback(
+    (updates: Partial<Omit<SheetDraft, 'id' | 'updatedAt'>>) => {
+      const currentDraft = readActiveDraft()
+      const nextDraft = buildNextDraft(currentDraft, updates)
 
-    if (sheetDraftCollection.get('active')) {
-      sheetDraftCollection.update('active', (storedDraft) => {
-        Object.assign(storedDraft, nextDraft)
-      })
-      return
-    }
-
-    sheetDraftCollection.insert(nextDraft)
-  }, [])
+      writeActiveDraft(nextDraft)
+      setDraft(nextDraft)
+    },
+    [],
+  )
 
   return {
     draft,

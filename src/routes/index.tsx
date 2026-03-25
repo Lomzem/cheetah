@@ -37,9 +37,65 @@ type PreviewState = {
 }
 
 const NOTES_DEBOUNCE_MS = 350
+const UI_PREFERENCES_STORAGE_KEY = 'cheetah-ui-preferences'
 
 const formulaClasses = getFormulaClasses()
 const formulaIndex = getFormulaIndex()
+
+function readUiPreferences() {
+  if (typeof window === 'undefined') {
+    return {
+      activeClassId: formulaClasses[0]?.id ?? '',
+      showTex: false,
+    }
+  }
+
+  try {
+    const stored = window.localStorage.getItem(UI_PREFERENCES_STORAGE_KEY)
+
+    if (!stored) {
+      return {
+        activeClassId: formulaClasses[0]?.id ?? '',
+        showTex: false,
+      }
+    }
+
+    const parsed = JSON.parse(stored) as {
+      activeClassId?: unknown
+      showTex?: unknown
+    }
+
+    return {
+      activeClassId:
+        typeof parsed.activeClassId === 'string' &&
+        formulaClasses.some(
+          (classData) => classData.id === parsed.activeClassId,
+        )
+          ? parsed.activeClassId
+          : (formulaClasses[0]?.id ?? ''),
+      showTex: parsed.showTex === true,
+    }
+  } catch {
+    return {
+      activeClassId: formulaClasses[0]?.id ?? '',
+      showTex: false,
+    }
+  }
+}
+
+function writeUiPreferences(preferences: {
+  activeClassId: string
+  showTex: boolean
+}) {
+  if (typeof window === 'undefined') {
+    return
+  }
+
+  window.localStorage.setItem(
+    UI_PREFERENCES_STORAGE_KEY,
+    JSON.stringify(preferences),
+  )
+}
 
 function downloadBlob(blob: Blob, fileName: string) {
   const url = URL.createObjectURL(blob)
@@ -68,7 +124,7 @@ function buildCompileRequest(draft: SheetDraft): CompileRequest {
 
 function Home() {
   const [activeClassId, setActiveClassId] = useState(
-    formulaClasses[0]?.id ?? '',
+    () => readUiPreferences().activeClassId,
   )
   const [search, setSearch] = useState('')
   const [previewState, setPreviewState] = useState<PreviewState>({
@@ -77,7 +133,7 @@ function Home() {
   })
   const [pdfUrl, setPdfUrl] = useState<string>()
   const [isDownloadingPdf, setIsDownloadingPdf] = useState(false)
-  const [showTex, setShowTex] = useState(false)
+  const [showTex, setShowTex] = useState(() => readUiPreferences().showTex)
   const [noteInput, setNoteInput] = useState(defaultSheetDraft.noteText)
   const [confirmClearAll, setConfirmClearAll] = useState(false)
   const requestCounter = useRef(0)
@@ -89,6 +145,10 @@ function Home() {
       setActiveClassId(formulaClasses[0].id)
     }
   }, [activeClassId])
+
+  useEffect(() => {
+    writeUiPreferences({ activeClassId, showTex })
+  }, [activeClassId, showTex])
 
   useEffect(() => {
     setNoteInput(draft.noteText)
