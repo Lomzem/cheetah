@@ -366,7 +366,7 @@ function convertLatexToTypst(input: string): string {
       `binom(${convertLatexToTypst(left)}, ${convertLatexToTypst(right)})`,
   )
   output = cleanup(output)
-  output = output.replace(/\\sum_\{([^}]+)\}\^\{([^}]+)\}/g, 'sum_($1)^$2')
+  output = output.replace(/\\sum_\{([^}]+)\}\^\{([^}]+)\}/g, 'sum_($1)^($2)')
   output = replaceTextSubscripts(output)
   output = output.replace(/\{([^{}]+)\}/g, (_, value: string) => value)
   output = splitUnknownWords(output)
