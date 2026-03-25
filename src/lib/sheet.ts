@@ -1,4 +1,5 @@
 import { createCollection, localStorageCollectionOptions } from '@tanstack/db'
+import { useEffect, useState } from 'react'
 import { z } from 'zod'
 
 export const columnCountSchema = z.union([
@@ -53,5 +54,55 @@ export function buildNextDraft(
     ...updates,
     id: 'active',
     updatedAt: new Date().toISOString(),
+  }
+}
+
+function readActiveDraft() {
+  return sheetDraftCollection.get('active') ?? defaultSheetDraft
+}
+
+export function useSheetDraft() {
+  const [draft, setDraft] = useState<SheetDraft>(defaultSheetDraft)
+  const [ready, setReady] = useState(false)
+
+  useEffect(() => {
+    const existingDraft = readActiveDraft()
+
+    if (!sheetDraftCollection.get('active')) {
+      sheetDraftCollection.insert(defaultSheetDraft)
+    }
+
+    setDraft(existingDraft)
+    setReady(true)
+
+    const subscription = sheetDraftCollection.subscribeChanges(() => {
+      setDraft(readActiveDraft())
+    })
+
+    return () => {
+      subscription.unsubscribe()
+    }
+  }, [])
+
+  function persistDraft(
+    updates: Partial<Omit<SheetDraft, 'id' | 'updatedAt'>>,
+  ) {
+    const currentDraft = readActiveDraft()
+    const nextDraft = buildNextDraft(currentDraft, updates)
+
+    if (sheetDraftCollection.get('active')) {
+      sheetDraftCollection.update('active', (storedDraft) => {
+        Object.assign(storedDraft, nextDraft)
+      })
+      return
+    }
+
+    sheetDraftCollection.insert(nextDraft)
+  }
+
+  return {
+    draft,
+    ready,
+    persistDraft,
   }
 }

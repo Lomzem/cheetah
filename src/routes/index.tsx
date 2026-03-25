@@ -1,5 +1,4 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { useLiveQuery } from '@tanstack/react-db'
 import {
   Download,
   Eye,
@@ -19,11 +18,7 @@ import {
 import type { CompileRequest } from '#/lib/latex'
 import { renderLatexDocument } from '#/lib/latex'
 import type { SheetDraft } from '#/lib/sheet'
-import {
-  buildNextDraft,
-  defaultSheetDraft,
-  sheetDraftCollection,
-} from '#/lib/sheet'
+import { defaultSheetDraft, useSheetDraft } from '#/lib/sheet'
 import { compilePreview } from '#/lib/server/sheet-actions'
 
 export const Route = createFileRoute('/')({ component: Home })
@@ -78,14 +73,7 @@ function Home() {
   const [isDownloadingPdf, setIsDownloadingPdf] = useState(false)
   const requestCounter = useRef(0)
 
-  const { data } = useLiveQuery(() => sheetDraftCollection)
-  const draft = data?.[0] ?? defaultSheetDraft
-
-  useEffect(() => {
-    if (data && data.length === 0) {
-      sheetDraftCollection.insert(defaultSheetDraft)
-    }
-  }, [data])
+  const { draft, ready, persistDraft } = useSheetDraft()
 
   useEffect(() => {
     if (!activeClassId && formulaClasses[0]) {
@@ -132,6 +120,10 @@ function Home() {
   }, [activeClassId, search])
 
   useEffect(() => {
+    if (!ready) {
+      return
+    }
+
     const timer = window.setTimeout(async () => {
       const requestId = requestCounter.current + 1
       requestCounter.current = requestId
@@ -157,7 +149,7 @@ function Home() {
     return () => {
       window.clearTimeout(timer)
     }
-  }, [request, signature])
+  }, [ready, request, signature])
 
   useEffect(() => {
     if (!previewState.result?.ok || !previewState.result.pdfBase64) {
@@ -174,21 +166,6 @@ function Home() {
       URL.revokeObjectURL(url)
     }
   }, [previewState.result])
-
-  function persistDraft(
-    updates: Partial<Omit<SheetDraft, 'id' | 'updatedAt'>>,
-  ) {
-    const nextDraft = buildNextDraft(draft, updates)
-
-    if (data && data.length > 0) {
-      sheetDraftCollection.update('active', (current) => {
-        Object.assign(current, nextDraft)
-      })
-      return
-    }
-
-    sheetDraftCollection.insert(nextDraft)
-  }
 
   function toggleFormula(formulaId: string) {
     const nextSelected = draft.selectedFormulaIds.includes(formulaId)

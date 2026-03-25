@@ -1,8 +1,9 @@
 services:
   latex-compiler:
+    container_name: cheetah-latex-compiler
     build:
-      context: .
-      dockerfile: services/latex-compiler/Dockerfile
+      context: ./services/latex-compiler
+      dockerfile: Dockerfile
     ports:
       - '8080:8080'
     environment:

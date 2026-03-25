@@ -1,4 +1,4 @@
-import { BlockMath } from 'react-katex'
+import katex from 'katex'
 
 type MathFormulaProps = {
   latex: string
@@ -6,7 +6,14 @@ type MathFormulaProps = {
 
 export function MathFormula({ latex }: MathFormulaProps) {
   try {
-    return <BlockMath math={latex} />
+    const html = katex.renderToString(latex, {
+      displayMode: true,
+      throwOnError: true,
+      output: 'html',
+      strict: 'warn',
+    })
+
+    return <div dangerouslySetInnerHTML={{ __html: html }} />
   } catch {
     return <code className="text-xs text-stone-600">{latex}</code>
   }

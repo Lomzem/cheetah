@@ -21,7 +21,7 @@ Successful compile responses return:
 ## Build and run
 
 ```bash
-docker build -f services/latex-compiler/Dockerfile -t cheetah-tectonic .
+docker build -t cheetah-tectonic services/latex-compiler
 docker run --rm -p 8080:8080 cheetah-tectonic
 ```
 
