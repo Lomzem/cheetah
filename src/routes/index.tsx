@@ -612,16 +612,16 @@ function Home() {
             ) : null}
           </div>
 
-          {/* PDF iframe or .tex source */}
-          <div className="relative overflow-hidden rounded-xl border border-border bg-card shadow-sm">
-            {showTex ? (
-              <pre className="h-[72vh] min-h-[500px] overflow-auto p-4 font-mono text-[12px] leading-6 text-foreground">
-                {texSource}
-              </pre>
-            ) : pdfUrl ? (
-              <>
+          {/* PDF iframe or .tex source — stacked in same grid cell to prevent layout shift */}
+          <div className="grid overflow-hidden rounded-xl border border-border bg-card shadow-sm">
+            <pre className={`col-start-1 row-start-1 h-[72vh] min-h-[500px] overflow-auto p-4 font-mono text-[12px] leading-6 text-foreground ${showTex ? 'visible z-10' : 'invisible z-0'}`}>
+              {texSource}
+            </pre>
+
+            {pdfUrl ? (
+              <div className={`relative col-start-1 row-start-1 ${showTex ? 'invisible z-0' : 'visible z-10'}`}>
                 {previewState.status === 'loading' ? (
-                  <div className="absolute inset-x-0 top-0 z-10 flex items-center justify-center gap-2 bg-secondary/90 py-1.5 text-xs font-medium text-muted-foreground backdrop-blur-sm">
+                  <div className="absolute inset-x-0 top-0 z-20 flex items-center justify-center gap-2 bg-secondary/90 py-1.5 text-xs font-medium text-muted-foreground backdrop-blur-sm">
                     <LoaderCircle className="h-3.5 w-3.5 animate-spin" />
                     Recompiling...
                   </div>
@@ -632,9 +632,9 @@ function Home() {
                   src={pdfUrl}
                   className={`h-[72vh] min-h-[500px] w-full bg-white ${previewState.status === 'loading' ? 'opacity-50' : ''}`}
                 />
-              </>
+              </div>
             ) : (
-              <div className="dot-bg flex h-[72vh] min-h-[500px] items-center justify-center p-8 text-center">
+              <div className={`dot-bg col-start-1 row-start-1 flex h-[72vh] min-h-[500px] items-center justify-center p-8 text-center ${showTex ? 'invisible z-0' : 'visible z-10'}`}>
                 <div className="max-w-xs space-y-3">
                   <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-secondary">
                     {previewState.status === 'loading' ? (
