@@ -8,6 +8,7 @@ import {
   LoaderCircle,
   RotateCcw,
   Search,
+  Trash2,
   X,
 } from 'lucide-react'
 import { AnimatePresence, LayoutGroup, motion } from 'motion/react'
@@ -78,6 +79,7 @@ function Home() {
   const [isDownloadingPdf, setIsDownloadingPdf] = useState(false)
   const [showTex, setShowTex] = useState(false)
   const [noteInput, setNoteInput] = useState(defaultSheetDraft.noteText)
+  const [confirmClearAll, setConfirmClearAll] = useState(false)
   const requestCounter = useRef(0)
 
   const { draft, ready, persistDraft } = useSheetDraft()
@@ -567,18 +569,67 @@ function Home() {
                 className="overflow-hidden border-t border-border"
               >
                 <div className="pt-4">
-                  <p className="text-xs font-semibold text-foreground">
-                    <motion.span
-                      key={selectedCount}
-                      initial={{ opacity: 0, y: -4 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.1 }}
-                      className="inline-block font-display text-primary"
-                    >
-                      {selectedCount}
-                    </motion.span>{' '}
-                    formulas on sheet
-                  </p>
+                  <div className="flex items-center justify-between">
+                    <p className="text-xs font-semibold text-foreground">
+                      <motion.span
+                        key={selectedCount}
+                        initial={{ opacity: 0, y: -4 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.1 }}
+                        className="inline-block font-display text-primary"
+                      >
+                        {selectedCount}
+                      </motion.span>{' '}
+                      formulas on sheet
+                    </p>
+                    <AnimatePresence mode="wait">
+                      {confirmClearAll ? (
+                        <motion.div
+                          key="confirm"
+                          initial={{ opacity: 0, scale: 0.9 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          exit={{ opacity: 0, scale: 0.9 }}
+                          transition={{ duration: 0.12 }}
+                          className="flex items-center gap-1.5"
+                        >
+                          <span className="text-[11px] text-muted-foreground">
+                            Clear all?
+                          </span>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              persistDraft({ selectedFormulaIds: [] })
+                              setConfirmClearAll(false)
+                            }}
+                            className="rounded-md bg-primary px-2 py-0.5 text-[11px] font-medium text-primary-foreground transition-colors hover:bg-primary/80"
+                          >
+                            Yes
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => setConfirmClearAll(false)}
+                            className="rounded-md bg-secondary px-2 py-0.5 text-[11px] font-medium text-foreground transition-colors hover:bg-accent"
+                          >
+                            No
+                          </button>
+                        </motion.div>
+                      ) : (
+                        <motion.button
+                          key="clear"
+                          initial={{ opacity: 0, scale: 0.9 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          exit={{ opacity: 0, scale: 0.9 }}
+                          transition={{ duration: 0.12 }}
+                          type="button"
+                          onClick={() => setConfirmClearAll(true)}
+                          className="group flex items-center gap-1 rounded-md px-1.5 py-0.5 text-[11px] text-muted-foreground transition-colors hover:bg-accent hover:text-primary"
+                        >
+                          <Trash2 className="h-3 w-3" />
+                          Clear All
+                        </motion.button>
+                      )}
+                    </AnimatePresence>
+                  </div>
                   <div className="mt-2 flex flex-wrap gap-1">
                     <AnimatePresence>
                       {selectedGroups.flatMap((classData) =>
