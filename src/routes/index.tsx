@@ -10,6 +10,7 @@ import {
   Search,
   X,
 } from 'lucide-react'
+import { AnimatePresence, LayoutGroup, motion } from 'motion/react'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { MathFormula } from '#/components/math-formula'
 import ThemeToggle from '#/components/ThemeToggle'
@@ -261,7 +262,12 @@ function Home() {
   return (
     <div className="mx-auto flex min-h-screen w-full max-w-[1440px] flex-col px-5 lg:px-8">
       {/* ── Top Bar ── */}
-      <header className="flex items-center gap-4 border-b border-border py-4">
+      <motion.header
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.2, ease: 'easeOut' }}
+        className="flex items-center gap-4 border-b border-border py-4"
+      >
         <h1 className="font-display text-lg font-bold tracking-tight text-foreground">
           <span className="text-primary">C</span>heetah
         </h1>
@@ -322,12 +328,17 @@ function Home() {
 
           <ThemeToggle />
         </div>
-      </header>
+      </motion.header>
 
       {/* ── Workspace ── */}
       <div className="grid flex-1 gap-8 py-6 lg:grid-cols-[1fr_1fr] xl:grid-cols-[1.1fr_0.9fr]">
         {/* ── Left: Builder ── */}
-        <div className="flex flex-col gap-6">
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.25, delay: 0.05, ease: 'easeOut' }}
+          className="flex flex-col gap-6"
+        >
           {/* Notes */}
           <div>
             <div className="flex items-center justify-between">
@@ -367,22 +378,31 @@ function Home() {
           {/* ── Formula Browser ── */}
           <div>
             {/* Class tabs */}
-            <div className="flex items-center gap-0.5 border-b border-border">
-              {formulaIndex.classes.map((classData) => (
-                <button
-                  key={classData.id}
-                  type="button"
-                  onClick={() => setActiveClassId(classData.id)}
-                  className={`relative px-3 py-2 text-xs font-medium transition-colors ${
-                    activeClassId === classData.id
-                      ? 'text-foreground after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:bg-primary'
-                      : 'text-muted-foreground hover:text-foreground'
-                  }`}
-                >
-                  {classData.name}
-                </button>
-              ))}
-            </div>
+            <LayoutGroup id="class-tabs">
+              <div className="flex items-center gap-0.5 border-b border-border">
+                {formulaIndex.classes.map((classData) => (
+                  <button
+                    key={classData.id}
+                    type="button"
+                    onClick={() => setActiveClassId(classData.id)}
+                    className={`relative px-3 py-2 text-xs font-medium transition-colors ${
+                      activeClassId === classData.id
+                        ? 'text-foreground'
+                        : 'text-muted-foreground hover:text-foreground'
+                    }`}
+                  >
+                    {classData.name}
+                    {activeClassId === classData.id ? (
+                      <motion.div
+                        layoutId="tab-indicator"
+                        className="absolute bottom-0 left-0 h-[2px] w-full bg-primary"
+                        transition={{ type: 'spring', stiffness: 500, damping: 35 }}
+                      />
+                    ) : null}
+                  </button>
+                ))}
+              </div>
+            </LayoutGroup>
 
             {/* Search + Select All */}
             <div className="flex items-center gap-2 py-3">
@@ -415,198 +435,303 @@ function Home() {
 
             {/* Formula list */}
             <div className="max-h-[60vh] overflow-y-auto">
-              {visibleClasses.length === 0 ? (
-                <p className="py-8 text-center text-sm text-muted-foreground">
-                  No formulas matched.
-                </p>
-              ) : (
-                <div className="space-y-1">
-                  {visibleClasses.map((classData) =>
-                    classData.categories.map((category) => {
-                      const categoryIds = category.formulas.map((f) => f.id)
-                      const allCatSelected =
-                        categoryIds.length > 0 &&
-                        categoryIds.every((id) =>
-                          draft.selectedFormulaIds.includes(id),
-                        )
-                      const someCatSelected =
-                        !allCatSelected &&
-                        categoryIds.some((id) =>
-                          draft.selectedFormulaIds.includes(id),
-                        )
+              <AnimatePresence mode="wait">
+                {visibleClasses.length === 0 ? (
+                  <motion.p
+                    key="empty"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="py-8 text-center text-sm text-muted-foreground"
+                  >
+                    No formulas matched.
+                  </motion.p>
+                ) : (
+                  <motion.div
+                    key={activeClassId}
+                    initial={{ opacity: 0, x: 8 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -8 }}
+                    transition={{ duration: 0.12, ease: 'easeOut' }}
+                    className="space-y-1"
+                  >
+                    {visibleClasses.map((classData) =>
+                      classData.categories.map((category) => {
+                        const categoryIds = category.formulas.map((f) => f.id)
+                        const allCatSelected =
+                          categoryIds.length > 0 &&
+                          categoryIds.every((id) =>
+                            draft.selectedFormulaIds.includes(id),
+                          )
+                        const someCatSelected =
+                          !allCatSelected &&
+                          categoryIds.some((id) =>
+                            draft.selectedFormulaIds.includes(id),
+                          )
 
-                      return (
-                        <details
-                          key={category.id}
-                          open
-                          className="group"
-                        >
-                          <summary className="flex cursor-pointer items-center gap-2 py-2 text-xs font-semibold text-foreground select-none">
-                            <ChevronDown className="h-3 w-3 text-muted-foreground transition-transform group-open:rotate-180" />
-                            <input
-                              type="checkbox"
-                              checked={allCatSelected}
-                              ref={(el) => {
-                                if (el) el.indeterminate = someCatSelected
-                              }}
-                              onChange={(e) => {
-                                e.stopPropagation()
-                                toggleIds(categoryIds)
-                              }}
-                              onClick={(e) => e.stopPropagation()}
-                              className="h-3.5 w-3.5"
-                            />
-                            <span className="flex-1">{category.name}</span>
-                            <span className="tabular-nums text-muted-foreground font-normal">
-                              {category.formulas.length}
-                            </span>
-                          </summary>
+                        return (
+                          <details
+                            key={category.id}
+                            open
+                            className="group"
+                          >
+                            <summary className="flex cursor-pointer items-center gap-2 py-2 text-xs font-semibold text-foreground select-none">
+                              <ChevronDown className="h-3 w-3 text-muted-foreground transition-transform duration-150 group-open:rotate-180" />
+                              <input
+                                type="checkbox"
+                                checked={allCatSelected}
+                                ref={(el) => {
+                                  if (el) el.indeterminate = someCatSelected
+                                }}
+                                onChange={(e) => {
+                                  e.stopPropagation()
+                                  toggleIds(categoryIds)
+                                }}
+                                onClick={(e) => e.stopPropagation()}
+                                className="h-3.5 w-3.5"
+                              />
+                              <span className="flex-1">{category.name}</span>
+                              <span className="tabular-nums text-muted-foreground font-normal">
+                                {category.formulas.length}
+                              </span>
+                            </summary>
 
-                          <div className="ml-5 space-y-px pb-1">
-                            {category.formulas.map((formula) => {
-                              const selected =
-                                draft.selectedFormulaIds.includes(formula.id)
+                            <div className="ml-5 space-y-px pb-1">
+                              {category.formulas.map((formula) => {
+                                const selected =
+                                  draft.selectedFormulaIds.includes(formula.id)
 
-                              return (
-                                <label
-                                  key={formula.id}
-                                  className={`flex cursor-pointer items-start gap-2.5 rounded-md px-2.5 py-2 transition-colors ${
-                                    selected
-                                      ? 'bg-accent'
-                                      : 'hover:bg-secondary'
-                                  }`}
-                                >
-                                  <input
-                                    type="checkbox"
-                                    checked={selected}
-                                    onChange={() => toggleFormula(formula.id)}
-                                    className="mt-0.5 h-3.5 w-3.5"
-                                  />
-                                  <div className="min-w-0 flex-1">
-                                    <p className="text-sm font-medium text-foreground">
-                                      {formula.name}
-                                    </p>
-                                    <div className="mt-1.5 overflow-x-auto text-foreground">
-                                      <MathFormula latex={formula.latex} />
+                                return (
+                                  <label
+                                    key={formula.id}
+                                    className={`flex cursor-pointer items-start gap-2.5 rounded-md px-2.5 py-2 transition-colors duration-150 ${
+                                      selected
+                                        ? 'bg-accent'
+                                        : 'hover:bg-secondary'
+                                    }`}
+                                  >
+                                    <input
+                                      type="checkbox"
+                                      checked={selected}
+                                      onChange={() => toggleFormula(formula.id)}
+                                      className="mt-0.5 h-3.5 w-3.5"
+                                    />
+                                    <div className="min-w-0 flex-1">
+                                      <p className="text-sm font-medium text-foreground">
+                                        {formula.name}
+                                      </p>
+                                      <div className="mt-1.5 overflow-x-auto text-foreground">
+                                        <MathFormula latex={formula.latex} />
+                                      </div>
                                     </div>
-                                  </div>
-                                </label>
-                              )
-                            })}
-                          </div>
-                        </details>
-                      )
-                    }),
-                  )}
-                </div>
-              )}
+                                  </label>
+                                )
+                              })}
+                            </div>
+                          </details>
+                        )
+                      }),
+                    )}
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
           </div>
 
           {/* Selection summary */}
-          {selectedGroups.length > 0 ? (
-            <div className="border-t border-border pt-4">
-              <p className="text-xs font-semibold text-foreground">
-                <span className="font-display text-primary">{selectedCount}</span>{' '}
-                formulas on sheet
-              </p>
-              <div className="mt-2 flex flex-wrap gap-1">
-                {selectedGroups.flatMap((classData) =>
-                  classData.categories.flatMap((category) =>
-                    category.formulas.map((formula) => (
-                      <button
-                        key={formula.id}
-                        type="button"
-                        onClick={() => toggleFormula(formula.id)}
-                        className="group inline-flex items-center gap-1 rounded-md bg-secondary px-2 py-0.5 text-xs text-foreground transition-colors hover:bg-accent"
-                      >
-                        {formula.name}
-                        <X className="h-2.5 w-2.5 text-muted-foreground group-hover:text-primary" />
-                      </button>
-                    )),
-                  ),
-                )}
-              </div>
-            </div>
-          ) : null}
-        </div>
+          <AnimatePresence>
+            {selectedGroups.length > 0 ? (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: 'auto' }}
+                exit={{ opacity: 0, height: 0 }}
+                transition={{ duration: 0.15, ease: 'easeInOut' }}
+                className="overflow-hidden border-t border-border"
+              >
+                <div className="pt-4">
+                  <p className="text-xs font-semibold text-foreground">
+                    <motion.span
+                      key={selectedCount}
+                      initial={{ opacity: 0, y: -4 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.1 }}
+                      className="inline-block font-display text-primary"
+                    >
+                      {selectedCount}
+                    </motion.span>{' '}
+                    formulas on sheet
+                  </p>
+                  <div className="mt-2 flex flex-wrap gap-1">
+                    <AnimatePresence>
+                      {selectedGroups.flatMap((classData) =>
+                        classData.categories.flatMap((category) =>
+                          category.formulas.map((formula) => (
+                            <motion.button
+                              key={formula.id}
+                              layout
+                              initial={{ opacity: 0, scale: 0.9 }}
+                              animate={{ opacity: 1, scale: 1 }}
+                              exit={{ opacity: 0, scale: 0.9 }}
+                              transition={{ duration: 0.1 }}
+                              type="button"
+                              onClick={() => toggleFormula(formula.id)}
+                              className="group inline-flex items-center gap-1 rounded-md bg-secondary px-2 py-0.5 text-xs text-foreground transition-colors hover:bg-accent"
+                            >
+                              {formula.name}
+                              <X className="h-2.5 w-2.5 text-muted-foreground group-hover:text-primary" />
+                            </motion.button>
+                          )),
+                        ),
+                      )}
+                    </AnimatePresence>
+                  </div>
+                </div>
+              </motion.div>
+            ) : null}
+          </AnimatePresence>
+        </motion.div>
 
         {/* ── Right: Preview ── */}
-        <div className="sticky top-6 flex flex-col gap-3 self-start">
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.25, delay: 0.1, ease: 'easeOut' }}
+          className="sticky top-6 flex flex-col gap-3 self-start"
+        >
           {/* View toggle + status */}
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-0.5">
-              <button
-                type="button"
-                onClick={() => setShowTex(false)}
-                className={`inline-flex items-center gap-1 rounded-md px-2.5 py-1 text-xs font-medium transition-colors ${
-                  !showTex
-                    ? 'bg-primary text-primary-foreground'
-                    : 'text-muted-foreground hover:text-foreground'
-                }`}
-              >
-                <Eye className="h-3 w-3" />
-                PDF
-              </button>
-              <button
-                type="button"
-                onClick={() => setShowTex(true)}
-                className={`inline-flex items-center gap-1 rounded-md px-2.5 py-1 text-xs font-medium transition-colors ${
-                  showTex
-                    ? 'bg-primary text-primary-foreground'
-                    : 'text-muted-foreground hover:text-foreground'
-                }`}
-              >
-                <Code className="h-3 w-3" />
-                .tex
-              </button>
-            </div>
+            <LayoutGroup id="preview-tabs">
+              <div className="flex items-center gap-0.5">
+                <button
+                  type="button"
+                  onClick={() => setShowTex(false)}
+                  className={`relative inline-flex items-center gap-1 rounded-md px-2.5 py-1 text-xs font-medium transition-colors ${
+                    !showTex
+                      ? 'text-primary-foreground'
+                      : 'text-muted-foreground hover:text-foreground'
+                  }`}
+                >
+                  {!showTex ? (
+                    <motion.div
+                      layoutId="preview-tab-bg"
+                      className="absolute inset-0 rounded-md bg-primary"
+                      transition={{ type: 'spring', stiffness: 500, damping: 35 }}
+                    />
+                  ) : null}
+                  <Eye className="relative z-10 h-3 w-3" />
+                  <span className="relative z-10">PDF</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setShowTex(true)}
+                  className={`relative inline-flex items-center gap-1 rounded-md px-2.5 py-1 text-xs font-medium transition-colors ${
+                    showTex
+                      ? 'text-primary-foreground'
+                      : 'text-muted-foreground hover:text-foreground'
+                  }`}
+                >
+                  {showTex ? (
+                    <motion.div
+                      layoutId="preview-tab-bg"
+                      className="absolute inset-0 rounded-md bg-primary"
+                      transition={{ type: 'spring', stiffness: 500, damping: 35 }}
+                    />
+                  ) : null}
+                  <Code className="relative z-10 h-3 w-3" />
+                  <span className="relative z-10">.tex</span>
+                </button>
+              </div>
+            </LayoutGroup>
 
-            {previewState.status === 'loading' ? (
-              <span className="inline-flex items-center gap-1 text-xs text-muted-foreground">
-                <LoaderCircle className="h-3 w-3 animate-spin" />
-                Compiling
-              </span>
-            ) : previewResult?.ok && !previewResult.overflow ? (
-              <span className="text-xs text-emerald-600 dark:text-emerald-400">
-                Ready
-              </span>
-            ) : null}
+            <AnimatePresence mode="wait">
+              {previewState.status === 'loading' ? (
+                <motion.span
+                  key="loading"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="inline-flex items-center gap-1 text-xs text-muted-foreground"
+                >
+                  <LoaderCircle className="h-3 w-3 animate-spin" />
+                  Compiling
+                </motion.span>
+              ) : previewResult?.ok && !previewResult.overflow ? (
+                <motion.span
+                  key="ready"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="text-xs text-emerald-600 dark:text-emerald-400"
+                >
+                  Ready
+                </motion.span>
+              ) : null}
+            </AnimatePresence>
           </div>
 
-          {previewResult?.overflow ? (
-            <p className="text-xs text-primary">
-              Overflows one page — remove formulas or shorten notes.
-            </p>
-          ) : previewUnavailable ? (
-            <p className="text-xs text-muted-foreground">
-              {previewResult?.message}
-            </p>
-          ) : null}
+          <AnimatePresence>
+            {previewResult?.overflow ? (
+              <motion.p
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: 'auto' }}
+                exit={{ opacity: 0, height: 0 }}
+                className="text-xs text-primary"
+              >
+                Overflows one page — remove formulas or shorten notes.
+              </motion.p>
+            ) : previewUnavailable ? (
+              <motion.p
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: 'auto' }}
+                exit={{ opacity: 0, height: 0 }}
+                className="text-xs text-muted-foreground"
+              >
+                {previewResult?.message}
+              </motion.p>
+            ) : null}
+          </AnimatePresence>
 
           {/* Preview frame */}
           <div className="grid overflow-hidden rounded-lg border border-border">
-            <pre className={`col-start-1 row-start-1 h-[75vh] min-h-[500px] overflow-auto bg-card p-4 font-mono text-[11px] leading-relaxed text-foreground ${showTex ? 'visible z-10' : 'invisible z-0'}`}>
+            <motion.pre
+              animate={{ opacity: showTex ? 1 : 0 }}
+              transition={{ duration: 0.12 }}
+              className={`col-start-1 row-start-1 h-[75vh] min-h-[500px] overflow-auto bg-card p-4 font-mono text-[11px] leading-relaxed text-foreground ${showTex ? 'z-10' : 'z-0 pointer-events-none'}`}
+            >
               {texSource}
-            </pre>
+            </motion.pre>
 
             {pdfUrl ? (
-              <div className={`relative col-start-1 row-start-1 ${showTex ? 'invisible z-0' : 'visible z-10'}`}>
+              <motion.div
+                animate={{ opacity: showTex ? 0 : 1 }}
+                transition={{ duration: 0.12 }}
+                className={`relative col-start-1 row-start-1 ${showTex ? 'z-0 pointer-events-none' : 'z-10'}`}
+              >
                 {previewState.status === 'loading' ? (
-                  <div className="absolute inset-x-0 top-0 z-20 flex items-center justify-center gap-1.5 bg-card/90 py-1 text-xs text-muted-foreground backdrop-blur-sm">
+                  <motion.div
+                    initial={{ opacity: 0, y: -4 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -4 }}
+                    transition={{ duration: 0.1 }}
+                    className="absolute inset-x-0 top-0 z-20 flex items-center justify-center gap-1.5 bg-card/90 py-1 text-xs text-muted-foreground backdrop-blur-sm"
+                  >
                     <LoaderCircle className="h-3 w-3 animate-spin" />
                     Recompiling
-                  </div>
+                  </motion.div>
                 ) : null}
                 <iframe
                   key={pdfUrl}
                   title="Cheat sheet preview"
                   src={pdfUrl}
-                  className={`h-[75vh] min-h-[500px] w-full bg-white ${previewState.status === 'loading' ? 'opacity-50' : ''}`}
+                  className={`h-[75vh] min-h-[500px] w-full bg-white transition-opacity duration-150 ${previewState.status === 'loading' ? 'opacity-50' : ''}`}
                 />
-              </div>
+              </motion.div>
             ) : (
-              <div className={`dot-bg col-start-1 row-start-1 flex h-[75vh] min-h-[500px] items-center justify-center ${showTex ? 'invisible z-0' : 'visible z-10'}`}>
+              <motion.div
+                animate={{ opacity: showTex ? 0 : 1 }}
+                transition={{ duration: 0.12 }}
+                className={`dot-bg col-start-1 row-start-1 flex h-[75vh] min-h-[500px] items-center justify-center ${showTex ? 'z-0 pointer-events-none' : 'z-10'}`}
+              >
                 <div className="text-center">
                   {previewState.status === 'loading' ? (
                     <LoaderCircle className="mx-auto h-5 w-5 animate-spin text-muted-foreground" />
@@ -621,10 +746,10 @@ function Home() {
                     </>
                   )}
                 </div>
-              </div>
+              </motion.div>
             )}
           </div>
-        </div>
+        </motion.div>
       </div>
     </div>
   )
