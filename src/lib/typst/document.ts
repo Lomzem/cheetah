@@ -66,7 +66,12 @@ function isTextHeavyFormula(formula: string) {
   }
 
   const unquoted = formula.replace(/"[^"]*"/g, ' ')
-  return !/[=_^/]/.test(unquoted)
+  const probe = unquoted
+    .replace(/\b(?:arrow(?:\.[a-z]+)*|degree|infinity|perp)\b/g, ' ')
+    .replace(/[,:;()[\]{}]/g, ' ')
+    .trim()
+
+  return probe.length === 0
 }
 
 function renderTextHeavyFormula(formula: string) {
