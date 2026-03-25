@@ -74,14 +74,14 @@ export default function ThemeToggle() {
       onClick={toggleMode}
       aria-label={label}
       title={label}
-      className="flex h-8 w-8 items-center justify-center rounded-lg border border-border bg-card text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
+      className="flex h-7 w-7 items-center justify-center rounded-md text-muted-foreground transition-colors hover:text-foreground"
     >
       {mode === 'light' ? (
-        <Sun className="h-4 w-4" />
+        <Sun className="h-3.5 w-3.5" />
       ) : mode === 'dark' ? (
-        <Moon className="h-4 w-4" />
+        <Moon className="h-3.5 w-3.5" />
       ) : (
-        <Monitor className="h-4 w-4" />
+        <Monitor className="h-3.5 w-3.5" />
       )}
     </button>
   )
