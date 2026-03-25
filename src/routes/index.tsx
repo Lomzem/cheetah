@@ -15,7 +15,6 @@ import { MathFormula } from '#/components/math-formula'
 import {
   getFormulaClasses,
   getFormulaIndex,
-  getFormulaStats,
   getSelectedFormulaGroups,
 } from '#/lib/formulas/data'
 import type { CompileRequest } from '#/lib/latex'
@@ -36,7 +35,6 @@ type PreviewState = {
 
 const formulaClasses = getFormulaClasses()
 const formulaIndex = getFormulaIndex()
-const formulaStats = getFormulaStats()
 
 function downloadBlob(blob: Blob, fileName: string) {
   const url = URL.createObjectURL(blob)
@@ -227,19 +225,8 @@ function Home() {
 
   return (
     <main className="mx-auto flex w-full max-w-[1600px] flex-col gap-0 px-4 py-6 lg:px-6">
-      {/* ── Headline + Toolbar ── */}
-      <section className="mb-6 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
-        <div>
-          <h1 className="font-display text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-            Cheat Sheet Builder
-          </h1>
-          <p className="mt-1 text-sm text-muted-foreground">
-            {formulaStats.formulaCount} formulas across{' '}
-            {formulaStats.classCount} classes — pick, tune, export.
-          </p>
-        </div>
-
-        <div className="flex flex-wrap items-center gap-2">
+      {/* ── Toolbar ── */}
+      <section className="mb-6 flex flex-wrap items-center gap-2">
           {/* Column selector */}
           <div className="flex items-center rounded-lg border border-border bg-card">
             {[1, 2, 3].map((count) => (
@@ -305,7 +292,6 @@ function Home() {
             )}
             PDF
           </button>
-        </div>
       </section>
 
       {/* ── Workspace: two-panel ── */}
