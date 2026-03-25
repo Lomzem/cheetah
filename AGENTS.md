@@ -4,3 +4,5 @@
 - ALWAYS write math variables in _math mode_ rather than _plaintext_.
   E.g. use `In this equation, $x = 2$` rather than `In this equation,
   x = 2`.
+- To indicate multiplication in Typst in Math Mode with a dot, use
+  `dot` rather than `*`. E.g. `$2 dot 2 = 4$` rather than `$2 * 2 = 4$`
