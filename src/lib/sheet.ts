@@ -1,5 +1,5 @@
 import { createCollection, localStorageCollectionOptions } from '@tanstack/db'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { z } from 'zod'
 
 export const columnCountSchema = z.union([
@@ -84,7 +84,7 @@ export function useSheetDraft() {
     }
   }, [])
 
-  function persistDraft(
+  const persistDraft = useCallback(function persistDraft(
     updates: Partial<Omit<SheetDraft, 'id' | 'updatedAt'>>,
   ) {
     const currentDraft = readActiveDraft()
@@ -98,7 +98,7 @@ export function useSheetDraft() {
     }
 
     sheetDraftCollection.insert(nextDraft)
-  }
+  }, [])
 
   return {
     draft,

@@ -35,6 +35,8 @@ type PreviewState = {
   result?: PreviewResult
 }
 
+const NOTES_DEBOUNCE_MS = 350
+
 const formulaClasses = getFormulaClasses()
 const formulaIndex = getFormulaIndex()
 
@@ -75,6 +77,7 @@ function Home() {
   const [pdfUrl, setPdfUrl] = useState<string>()
   const [isDownloadingPdf, setIsDownloadingPdf] = useState(false)
   const [showTex, setShowTex] = useState(false)
+  const [noteInput, setNoteInput] = useState(defaultSheetDraft.noteText)
   const requestCounter = useRef(0)
 
   const { draft, ready, persistDraft } = useSheetDraft()
@@ -84,6 +87,24 @@ function Home() {
       setActiveClassId(formulaClasses[0].id)
     }
   }, [activeClassId])
+
+  useEffect(() => {
+    setNoteInput(draft.noteText)
+  }, [draft.noteText])
+
+  useEffect(() => {
+    if (!ready || noteInput === draft.noteText) {
+      return
+    }
+
+    const timer = window.setTimeout(() => {
+      persistDraft({ noteText: noteInput })
+    }, NOTES_DEBOUNCE_MS)
+
+    return () => {
+      window.clearTimeout(timer)
+    }
+  }, [draft.noteText, noteInput, persistDraft, ready])
 
   const request = useMemo(() => buildCompileRequest(draft), [draft])
   const signature = useMemo(() => JSON.stringify(request), [request])
@@ -345,7 +366,8 @@ function Home() {
               </label>
               <button
                 type="button"
-                onClick={() =>
+                onClick={() => {
+                  setNoteInput(defaultSheetDraft.noteText)
                   persistDraft({
                     title: defaultSheetDraft.title,
                     columnCount: defaultSheetDraft.columnCount,
@@ -353,7 +375,7 @@ function Home() {
                     selectedFormulaIds: defaultSheetDraft.selectedFormulaIds,
                     noteText: defaultSheetDraft.noteText,
                   })
-                }
+                }}
                 className="inline-flex items-center gap-1 text-xs text-muted-foreground transition-colors hover:text-foreground"
               >
                 <RotateCcw className="h-2.5 w-2.5" />
@@ -361,11 +383,9 @@ function Home() {
               </button>
             </div>
             <textarea
-              value={draft.noteText}
+              value={noteInput}
               onChange={(event) =>
-                persistDraft({
-                  noteText: event.target.value.slice(0, 3000),
-                })
+                setNoteInput(event.target.value.slice(0, 3000))
               }
               rows={2}
               placeholder="Reminders, bullets (lines starting with -)..."
