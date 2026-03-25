@@ -188,9 +188,7 @@ function Home() {
   }
 
   function toggleIds(ids: string[]) {
-    const allSelected = ids.every((id) =>
-      draft.selectedFormulaIds.includes(id),
-    )
+    const allSelected = ids.every((id) => draft.selectedFormulaIds.includes(id))
     if (allSelected) {
       const remove = new Set(ids)
       persistDraft({
@@ -396,7 +394,11 @@ function Home() {
                       <motion.div
                         layoutId="tab-indicator"
                         className="absolute bottom-0 left-0 h-[2px] w-full bg-primary"
-                        transition={{ type: 'spring', stiffness: 500, damping: 35 }}
+                        transition={{
+                          type: 'spring',
+                          stiffness: 500,
+                          damping: 35,
+                        }}
                       />
                     ) : null}
                   </button>
@@ -470,11 +472,7 @@ function Home() {
                           )
 
                         return (
-                          <details
-                            key={category.id}
-                            open
-                            className="group"
-                          >
+                          <details key={category.id} open className="group">
                             <summary className="flex cursor-pointer items-center gap-2 py-2 text-xs font-semibold text-foreground select-none">
                               <ChevronDown className="h-3 w-3 text-muted-foreground transition-transform duration-150 group-open:rotate-180" />
                               <input
@@ -615,7 +613,11 @@ function Home() {
                     <motion.div
                       layoutId="preview-tab-bg"
                       className="absolute inset-0 rounded-md bg-primary"
-                      transition={{ type: 'spring', stiffness: 500, damping: 35 }}
+                      transition={{
+                        type: 'spring',
+                        stiffness: 500,
+                        damping: 35,
+                      }}
                     />
                   ) : null}
                   <Eye className="relative z-10 h-3 w-3" />
@@ -634,7 +636,11 @@ function Home() {
                     <motion.div
                       layoutId="preview-tab-bg"
                       className="absolute inset-0 rounded-md bg-primary"
-                      transition={{ type: 'spring', stiffness: 500, damping: 35 }}
+                      transition={{
+                        type: 'spring',
+                        stiffness: 500,
+                        damping: 35,
+                      }}
                     />
                   ) : null}
                   <Code className="relative z-10 h-3 w-3" />
@@ -677,7 +683,7 @@ function Home() {
                 exit={{ opacity: 0, height: 0 }}
                 className="text-xs text-primary"
               >
-                Overflows one page — remove formulas or shorten notes.
+                Exceeds the two-page limit — remove formulas or shorten notes.
               </motion.p>
             ) : previewUnavailable ? (
               <motion.p

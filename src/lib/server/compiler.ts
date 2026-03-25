@@ -8,6 +8,7 @@ import { renderLatexDocument } from '#/lib/latex'
 
 const REMOTE_COMPILER_URL = process.env.LATEX_COMPILER_URL
 const TECTONIC_BIN = process.env.TECTONIC_BIN ?? 'tectonic'
+const MAX_PAGE_COUNT = 2
 
 export type CompileResult = {
   ok: boolean
@@ -64,7 +65,7 @@ async function compileWithRemoteService(
     ...result,
     tex,
     layoutMode,
-    overflow: Boolean(result.pageCount && result.pageCount > 1),
+    overflow: Boolean(result.pageCount && result.pageCount > MAX_PAGE_COUNT),
     compilerMode: 'remote',
   }
 }
@@ -125,7 +126,7 @@ async function compileWithLocalTectonic(
       pdfBase64: pdfBuffer.toString('base64'),
       logs,
       pageCount,
-      overflow: pageCount > 1,
+      overflow: pageCount > MAX_PAGE_COUNT,
       compilerMode: 'local',
     }
   } catch (error) {

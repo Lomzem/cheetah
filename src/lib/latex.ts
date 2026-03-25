@@ -13,17 +13,50 @@ export const compileRequestSchema = z.object({
 export type CompileRequest = z.infer<typeof compileRequestSchema>
 
 function escapeLatexText(input: string) {
-  return input
-    .replace(/\\/g, '\\textbackslash{}')
-    .replace(/&/g, '\\&')
-    .replace(/%/g, '\\%')
-    .replace(/\$/g, '\\$')
-    .replace(/#/g, '\\#')
-    .replace(/_/g, '\\_')
-    .replace(/{/g, '\\{')
-    .replace(/}/g, '\\}')
-    .replace(/~/g, '\\textasciitilde{}')
-    .replace(/\^/g, '\\textasciicircum{}')
+  return Array.from(input)
+    .map((char) => {
+      switch (char) {
+        case '\\':
+          return '\\textbackslash{}\\allowbreak{}'
+        case '&':
+          return '\\&'
+        case '%':
+          return '\\%'
+        case '$':
+          return '\\$'
+        case '#':
+          return '\\#'
+        case '_':
+          return '\\_\\allowbreak{}'
+        case '{':
+          return '\\{'
+        case '}':
+          return '\\}'
+        case '~':
+          return '\\textasciitilde{}\\allowbreak{}'
+        case '^':
+          return '\\textasciicircum{}\\allowbreak{}'
+        case '/':
+          return '/\\allowbreak{}'
+        case '-':
+          return '-\\allowbreak{}'
+        case '.':
+          return '.\\allowbreak{}'
+        case ',':
+          return ',\\allowbreak{}'
+        case ':':
+          return ':\\allowbreak{}'
+        case ';':
+          return ';\\allowbreak{}'
+        case ')':
+          return ')\\allowbreak{}'
+        case ']':
+          return ']\\allowbreak{}'
+        default:
+          return char
+      }
+    })
+    .join('')
 }
 
 function renderNotes(noteText: string) {
@@ -42,13 +75,13 @@ function renderNotes(noteText: string) {
     if (lines.length > 0 && lines.every((line) => /^[-*]\s+/.test(line))) {
       const items = lines
         .map((line) => line.replace(/^[-*]\s+/, ''))
-        .map((line) => `\\item ${escapeLatexText(line)}`)
+        .map((line) => `\\item \\sheetwrap{${escapeLatexText(line)}}`)
         .join('\n')
 
       return `\\begin{itemize}[leftmargin=1.2em,itemsep=0.15em,topsep=0.25em,parsep=0pt]\n${items}\n\\end{itemize}`
     }
 
-    return lines.map((line) => escapeLatexText(line)).join('\\\\\n')
+    return `\\sheetparagraph{${lines.map((line) => escapeLatexText(line)).join('\\\\\n')}}`
   })
 
   return renderedBlocks.join('\n\n\\medskip\n\n')
@@ -68,7 +101,7 @@ function renderFormulaGroups(selectedFormulaIds: string[]) {
             )
             .join('\n')
 
-          return `\\section*{${escapeLatexText(category.name)}}\n${formulas}`
+          return `\\categoryheader{${escapeLatexText(category.name)}}\n${formulas}`
         })
         .join('\n\n')
 
@@ -90,7 +123,7 @@ export function renderLatexDocument(request: CompileRequest) {
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
 \usepackage{lmodern}
-\usepackage{amsmath,amssymb,mathtools,multicol,enumitem}
+\usepackage{amsmath,amssymb,mathtools,multicol,enumitem,ragged2e,adjustbox}
 \usepackage{xcolor}
 \usepackage[hidelinks]{hyperref}
 \pagestyle{empty}
@@ -101,12 +134,17 @@ export function renderLatexDocument(request: CompileRequest) {
 \setlength{\belowdisplayskip}{2pt}
 \setlength{\abovedisplayshortskip}{1pt}
 \setlength{\belowdisplayshortskip}{1pt}
+\setlength{\emergencystretch}{1.5em}
 \setlist[itemize]{leftmargin=1.1em,itemsep=0.15em,topsep=0.25em,parsep=0pt}
 \definecolor{sheetink}{HTML}{1F2937}
 \definecolor{sheetmuted}{HTML}{6B7280}
 \definecolor{sheetline}{HTML}{D1D5DB}
-\newcommand{\classheader}[1]{\vspace{0.2em}{\large\bfseries\color{sheetink} #1}\par\vspace{0.3em}\hrule\vspace{0.45em}}
-\newcommand{\formulaentry}[2]{\textbf{#1}\par\(\displaystyle #2\)\par\vspace{${formulaSpacing}}}
+\newcommand{\sheetwrap}[1]{{\RaggedRight\sloppy #1}}
+\newcommand{\sheetparagraph}[1]{\begingroup\RaggedRight\sloppy #1\par\endgroup}
+\newcommand{\sheetlabel}[1]{\begingroup\RaggedRight\sloppy\bfseries #1\par\endgroup}
+\newcommand{\classheader}[1]{\vspace{0.2em}{\large\bfseries\color{sheetink}\sheetwrap{#1}\par}\vspace{0.3em}\hrule\vspace{0.45em}}
+\newcommand{\categoryheader}[1]{\section*{\sheetwrap{#1}}}
+\newcommand{\formulaentry}[2]{\sheetlabel{#1}\adjustbox{max width=\linewidth}{\ensuremath{\displaystyle #2}}\par\vspace{${formulaSpacing}}}
 \begin{document}
 \begin{multicols*}{${data.columnCount}}
 \raggedcolumns
