@@ -1,6 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 import {
   ChevronDown,
+  Code,
   Download,
   Eye,
   FileText,
@@ -73,6 +74,7 @@ function Home() {
   })
   const [pdfUrl, setPdfUrl] = useState<string>()
   const [isDownloadingPdf, setIsDownloadingPdf] = useState(false)
+  const [showTex, setShowTex] = useState(false)
   const requestCounter = useRef(0)
 
   const { draft, ready, persistDraft } = useSheetDraft()
@@ -220,6 +222,11 @@ function Home() {
   const previewUnavailable =
     previewState.status === 'error' && !previewResult?.pdfBase64
 
+  const texSource =
+    previewState.signature === signature && previewResult?.tex
+      ? previewResult.tex
+      : renderLatexDocument(request)
+
   return (
     <main className="mx-auto flex w-full max-w-[1600px] flex-col gap-0 px-4 py-6 lg:px-6">
       {/* ── Headline + Toolbar ── */}
@@ -331,20 +338,7 @@ function Home() {
               </button>
             </div>
 
-            <div className="mt-4 grid gap-4 sm:grid-cols-2">
-              <label className="block space-y-1.5">
-                <span className="text-xs font-medium text-muted-foreground">
-                  Title
-                </span>
-                <input
-                  value={draft.title}
-                  onChange={(event) =>
-                    persistDraft({ title: event.target.value.slice(0, 80) })
-                  }
-                  className="w-full rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground outline-none transition-colors placeholder:text-muted-foreground focus:border-primary focus:ring-1 focus:ring-primary/30"
-                />
-              </label>
-
+            <div className="mt-4">
               <label className="block space-y-1.5">
                 <span className="text-xs font-medium text-muted-foreground">
                   Notes
@@ -519,14 +513,40 @@ function Home() {
           ) : null}
         </div>
 
-        {/* ── Right Panel: Preview ── */}
+        {/* ── Right Panel: Preview / .tex ── */}
         <div className="flex flex-col gap-4">
-          {/* Preview status */}
+          {/* Header with view toggle */}
           <div className="rounded-xl border border-border bg-card p-4">
             <div className="flex items-center justify-between">
-              <h2 className="font-display text-lg font-bold text-foreground">
-                Live Preview
-              </h2>
+              <div className="flex items-center gap-2">
+                <div className="flex items-center rounded-lg border border-border bg-background">
+                  <button
+                    type="button"
+                    onClick={() => setShowTex(false)}
+                    className={`inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold transition-colors first:rounded-l-lg last:rounded-r-lg ${
+                      !showTex
+                        ? 'bg-primary text-primary-foreground'
+                        : 'text-muted-foreground hover:text-foreground'
+                    }`}
+                  >
+                    <Eye className="h-3.5 w-3.5" />
+                    PDF
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setShowTex(true)}
+                    className={`inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold transition-colors first:rounded-l-lg last:rounded-r-lg ${
+                      showTex
+                        ? 'bg-primary text-primary-foreground'
+                        : 'text-muted-foreground hover:text-foreground'
+                    }`}
+                  >
+                    <Code className="h-3.5 w-3.5" />
+                    .tex
+                  </button>
+                </div>
+              </div>
+
               {previewState.status === 'loading' ? (
                 <span className="inline-flex items-center gap-1.5 text-xs text-muted-foreground">
                   <LoaderCircle className="h-3.5 w-3.5 animate-spin" />
@@ -551,9 +571,13 @@ function Home() {
             ) : null}
           </div>
 
-          {/* PDF iframe */}
+          {/* PDF iframe or .tex source */}
           <div className="overflow-hidden rounded-xl border border-border bg-card shadow-sm">
-            {pdfUrl && previewResult?.ok && !previewResult.overflow ? (
+            {showTex ? (
+              <pre className="h-[72vh] min-h-[500px] overflow-auto p-4 font-mono text-[12px] leading-6 text-foreground">
+                {texSource}
+              </pre>
+            ) : pdfUrl && previewResult?.ok && !previewResult.overflow ? (
               <iframe
                 key={pdfUrl}
                 title="Cheat sheet preview"
@@ -579,18 +603,6 @@ function Home() {
               </div>
             )}
           </div>
-
-          {/* Compiler logs */}
-          {previewResult?.logs ? (
-            <details className="rounded-xl border border-border bg-card">
-              <summary className="cursor-pointer px-4 py-3 text-xs font-semibold text-muted-foreground transition-colors hover:text-foreground">
-                Compiler output
-              </summary>
-              <pre className="overflow-x-auto border-t border-border px-4 py-3 font-mono text-[11px] leading-5 text-muted-foreground">
-                {previewResult.logs}
-              </pre>
-            </details>
-          ) : null}
         </div>
       </div>
     </main>

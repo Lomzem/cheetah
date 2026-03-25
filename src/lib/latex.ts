@@ -108,11 +108,9 @@ export function renderLatexDocument(request: CompileRequest) {
 \newcommand{\classheader}[1]{\vspace{0.2em}{\large\bfseries\color{sheetink} #1}\par\vspace{0.3em}\hrule\vspace{0.45em}}
 \newcommand{\formulaentry}[2]{\textbf{#1}\par\(\displaystyle #2\)\par\vspace{${formulaSpacing}}}
 \begin{document}
-{\centering\Large\bfseries ${escapeLatexText(data.title)}\par}
-\vspace{0.45em}
 \begin{multicols*}{${data.columnCount}}
 \raggedcolumns
-${formulaBody || '\\textit{Select formulas to begin building your sheet.}'}
+${formulaBody || ''}
 ${notes ? `\n\\classheader{Notes}\n${notes}` : ''}
 \end{multicols*}
 \end{document}
