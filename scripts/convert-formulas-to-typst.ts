@@ -42,11 +42,11 @@ const manualOverrides = new Map<string, string>([
   ],
   [
     '\\left(\\frac{a}{b}\\right)\\left(\\frac{c}{d}\\right)=\\frac{ac}{bd}',
-    '((a) / (b)) * ((c) / (d)) = (a c) / (b d)',
+    '((a) / (b)) dot.op ((c) / (d)) = (a c) / (b d)',
   ],
   [
     '\\left(\\frac{a}{b}\\right)\\div\\left(\\frac{c}{d}\\right)=\\left(\\frac{a}{b}\\right)\\left(\\frac{d}{c}\\right)=\\frac{ad}{bc}',
-    '((a) / (b)) div ((c) / (d)) = ((a) / (b)) * ((d) / (c)) = (a d) / (b c)',
+    '((a) / (b)) div ((c) / (d)) = ((a) / (b)) dot.op ((d) / (c)) = (a d) / (b c)',
   ],
   ['A=P\\!\\left(1+\\frac{r}{n}\\right)^{nt}', 'A = P (1 + (r) / (n))^(n t)'],
   [
@@ -72,23 +72,23 @@ const manualOverrides = new Map<string, string>([
   ['\\binom{n}{k}=\\frac{n!}{k!(n-k)!}', 'binom(n, k) = (n!) / (k! (n - k)!)'],
   [
     'n!=n(n-1)(n-2)\\cdots(2)(1) \\quad\\quad 0!=1',
-    'n! = n(n - 1)(n - 2) ... (2)(1) ; 0! = 1',
+    'n! = n(n - 1)(n - 2) ... (2)(1) space.quad 0! = 1',
   ],
   [
     'S_\\infty=\\frac{a_1}{1-r} \\quad |r|<1',
-    'S_"∞" = (a_1) / (1-r) ; |r| < 1',
+    'S_infinity = (a_1) / (1-r) ; |r| < 1',
   ],
   [
     '\\text{Rotation } 90^\\circ \\text{ CCW: } (x,y)\\to(-y,x)',
-    '"Rotation" 90 "deg" "CCW:" (x, y) -> (-y, x)',
+    '"Rotation" 90 degree "CCW:" (x, y) arrow.r (-y, x)',
   ],
   [
     '\\text{Rotation } 180^\\circ\\text{: } (x,y)\\to(-x,-y)',
-    '"Rotation" 180 "deg:" (x, y) -> (-x, -y)',
+    '"Rotation" 180 degree ":" (x, y) arrow.r (-x, -y)',
   ],
   [
     '\\text{Rotation } 270^\\circ \\text{ CCW: } (x,y)\\to(y,-x)',
-    '"Rotation" 270 "deg" "CCW:" (x, y) -> (y, -x)',
+    '"Rotation" 270 degree "CCW:" (x, y) arrow.r (y, -x)',
   ],
 ])
 
@@ -98,14 +98,20 @@ const keepWords = new Set([
   'cases',
   'det',
   'div',
+  'arrow',
+  'degree',
   'dot',
+  'double',
+  'infinity',
   'infty',
   'ln',
   'log',
   'mat',
+  'op',
   'perp',
   'pi',
   'root',
+  'space',
   'sqrt',
   'sum',
   'theta',
@@ -283,27 +289,27 @@ function cleanup(input: string) {
     .replaceAll('\\right', '')
     .replaceAll('\\!', '')
     .replaceAll('\\;', ' ')
-    .replaceAll('\\quad', ' ; ')
-    .replaceAll('\\qquad', ' ; ')
-    .replaceAll('\\cdot', ' dot ')
+    .replaceAll('\\quad', ' space.quad ')
+    .replaceAll('\\qquad', ' space.quad ')
+    .replaceAll('\\cdot', ' dot.op ')
     .replaceAll('\\times', ' times ')
     .replaceAll('\\div', ' div ')
-    .replaceAll('\\iff', ' <=> ')
-    .replaceAll('\\implies', ' => ')
-    .replaceAll('\\to', ' -> ')
+    .replaceAll('\\iff', ' arrow.l.r.double ')
+    .replaceAll('\\implies', ' arrow.r.double ')
+    .replaceAll('\\to', ' arrow.r ')
     .replaceAll('\\ge', ' >= ')
     .replaceAll('\\le', ' <= ')
     .replaceAll('\\mid', ' | ')
     .replaceAll('\\perp', ' perp ')
     .replaceAll('\\pi', ' pi ')
     .replaceAll('\\theta', ' theta ')
-    .replaceAll('\\infty', ' infty ')
+    .replaceAll('\\infty', ' infinity ')
     .replaceAll('\\ln', ' ln ')
     .replaceAll('\\log', ' log ')
     .replaceAll('\\det', ' det ')
     .replaceAll('\\pm', ' plus.minus ')
     .replaceAll('\\cdots', ' ... ')
-    .replaceAll('\\circ', ' "deg" ')
+    .replaceAll('\\circ', ' degree ')
     .replaceAll('\\{', '{')
     .replaceAll('\\}', '}')
     .replace(/\s+/g, ' ')

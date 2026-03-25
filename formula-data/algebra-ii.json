@@ -9,7 +9,7 @@
         {
           "id": "algebra-ii-complex-numbers-imaginary-unit",
           "name": "Imaginary Unit",
-          "typst": "i=sqrt(-1) ; ; i^2=-1"
+          "typst": "i=sqrt(-1) space.quad i^2=-1"
         },
         {
           "id": "algebra-ii-complex-numbers-addition",
@@ -35,7 +35,7 @@
         {
           "id": "algebra-ii-logarithms-definition",
           "name": "Definition",
-          "typst": "log _b(a)=c <=> b^c=a"
+          "typst": "log _b(a)=c arrow.l.r.double b^c=a"
         },
         {
           "id": "algebra-ii-logarithms-product-rule",
@@ -60,7 +60,7 @@
         {
           "id": "algebra-ii-logarithms-special-values",
           "name": "Special Values",
-          "typst": "log _b(1)=0 ; ; log _b(b)=1"
+          "typst": "log _b(1)=0 space.quad log _b(b)=1"
         }
       ]
     },
@@ -102,7 +102,7 @@
         {
           "id": "algebra-ii-polynomial-theorems-factor-theorem",
           "name": "Factor Theorem",
-          "typst": "\"Factor Thm:\" f(a)=0 => (x-a) \"is a factor\""
+          "typst": "\"Factor Thm:\" f(a)=0 arrow.r.double (x-a) \"is a factor\""
         },
         {
           "id": "algebra-ii-polynomial-theorems-rational-root-theorem",
@@ -112,7 +112,7 @@
         {
           "id": "algebra-ii-polynomial-theorems-descartes-rule",
           "name": "Descartes' Rule",
-          "typst": "\"Descartes' Rule: sign changes\" -> \"positive roots\""
+          "typst": "\"Descartes' Rule: sign changes\" arrow.r \"positive roots\""
         },
         {
           "id": "algebra-ii-polynomial-theorems-fundamental-theorem",
@@ -179,7 +179,7 @@
         {
           "id": "algebra-ii-sequences-and-series-infinite-geometric-sum",
           "name": "Infinite Geometric Sum",
-          "typst": "S_\"∞\" = (a_1) / (1-r) ; |r| < 1"
+          "typst": "S_infinity = (a_1) / (1-r) ; |r| < 1"
         }
       ]
     },
@@ -200,7 +200,7 @@
         {
           "id": "algebra-ii-matrices-identity-property",
           "name": "Identity Property",
-          "typst": "A dot A^-1=I"
+          "typst": "A dot.op A^-1=I"
         }
       ]
     },

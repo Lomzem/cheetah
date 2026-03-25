@@ -26,6 +26,15 @@ function escapeTypstText(input: string) {
     .replaceAll('$', '\\$')
 }
 
+const textHeavySymbolMap = new Map([
+  ['arrow.r', '#sym.arrow.r'],
+  ['arrow.r.double', '#sym.arrow.r.double'],
+  ['arrow.l.r.double', '#sym.arrow.l.r.double'],
+  ['degree', '#sym.degree'],
+  ['infinity', '#sym.infinity'],
+  ['perp', '#sym.perp'],
+])
+
 function renderNotes(noteText: string) {
   const trimmed = noteText.trim()
   if (!trimmed) {
@@ -52,17 +61,30 @@ function renderNotes(noteText: string) {
 }
 
 function isTextHeavyFormula(formula: string) {
-  return /^\s*"/.test(formula)
+  if (!/^\s*"/.test(formula)) {
+    return false
+  }
+
+  const unquoted = formula.replace(/"[^"]*"/g, ' ')
+  return !/[=_^/]/.test(unquoted)
 }
 
 function renderTextHeavyFormula(formula: string) {
   return formula.replaceAll('"', '').replace(/\s+/g, ' ').trim()
 }
 
+function renderTextHeavyFormulaBlock(formula: string) {
+  return renderTextHeavyFormula(formula)
+    .split(/\s+/)
+    .filter(Boolean)
+    .map((token) => textHeavySymbolMap.get(token) ?? escapeTypstText(token))
+    .join(' ')
+}
+
 export function renderFormula(formula: { name: string; typst: string }) {
   if (isTextHeavyFormula(formula.typst)) {
     return `*${escapeTypstText(formula.name)}*
-#block(width: 100%)[${escapeTypstText(renderTextHeavyFormula(formula.typst))}]`
+#block(width: 100%)[${renderTextHeavyFormulaBlock(formula.typst)}]`
   }
 
   return `*${escapeTypstText(formula.name)}*

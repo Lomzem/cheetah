@@ -45,12 +45,12 @@
         {
           "id": "algebra-i-inequalities-absolute-less-than",
           "name": "Absolute Less Than",
-          "typst": "|x|<a => -a<x<a"
+          "typst": "|x|<a arrow.r.double -a<x<a"
         },
         {
           "id": "algebra-i-inequalities-absolute-greater-than",
           "name": "Absolute Greater Than",
-          "typst": "|x|>a => x>a \"or\" x<-a"
+          "typst": "|x|>a arrow.r.double x>a \"or\" x<-a"
         }
       ]
     },
@@ -206,7 +206,7 @@
         {
           "id": "algebra-i-exponents-negative-exponent",
           "name": "Negative Exponent",
-          "typst": "a^-n=(1) / (a^n)"
+          "typst": "a^(-n)=(1) / (a^n)"
         },
         {
           "id": "algebra-i-exponents-zero-exponent",
@@ -227,7 +227,7 @@
         {
           "id": "algebra-i-radicals-product-rule",
           "name": "Product Rule",
-          "typst": "sqrt(a b)=sqrt(a) dot sqrt(b)"
+          "typst": "sqrt(a b)=sqrt(a) dot.op sqrt(b)"
         },
         {
           "id": "algebra-i-radicals-quotient-rule",
@@ -268,7 +268,7 @@
         {
           "id": "algebra-i-functions-vertical-line-test",
           "name": "Vertical Line Test",
-          "typst": "\"Vertical Line Test: each\" x -> \"one\" y"
+          "typst": "\"Vertical Line Test: each\" x arrow.r \"one\" y"
         }
       ]
     },
@@ -284,7 +284,7 @@
         {
           "id": "algebra-i-absolute-value-product",
           "name": "Product",
-          "typst": "|a dot b| = |a||b|"
+          "typst": "|a dot.op b| = |a||b|"
         },
         {
           "id": "algebra-i-absolute-value-quotient",
