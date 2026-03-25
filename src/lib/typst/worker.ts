@@ -27,6 +27,7 @@ type ErrorMessage = {
 }
 
 let compilerPromise: Promise<ReturnType<typeof createTypstCompiler>> | undefined
+let compilerQueue = Promise.resolve()
 
 async function getCompiler() {
   if (!compilerPromise) {
@@ -41,6 +42,17 @@ async function getCompiler() {
   }
 
   return compilerPromise
+}
+
+function withCompilerLock<T>(
+  task: (compiler: ReturnType<typeof createTypstCompiler>) => Promise<T>,
+) {
+  const result = compilerQueue.then(async () => task(await getCompiler()))
+  compilerQueue = result.then(
+    () => undefined,
+    () => undefined,
+  )
+  return result
 }
 
 function toErrorMessage(id: number, error: unknown): ErrorMessage {
@@ -58,14 +70,15 @@ self.onmessage = async (event: MessageEvent<CompileMessage>) => {
   const { id, source } = event.data
 
   try {
-    const compiler = await getCompiler()
-    await compiler.reset()
-    compiler.addSource('/main.typ', source)
+    const result = await withCompilerLock(async (compiler) => {
+      await compiler.reset()
+      compiler.addSource('/main.typ', source)
 
-    const result = await compiler.compile({
-      mainFilePath: '/main.typ',
-      format: CompileFormatEnum.pdf,
-      diagnostics: 'full',
+      return compiler.compile({
+        mainFilePath: '/main.typ',
+        format: CompileFormatEnum.pdf,
+        diagnostics: 'full',
+      })
     })
 
     if (!result.result) {
