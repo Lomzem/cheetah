@@ -167,12 +167,46 @@ function Home() {
     })
   }, [previewState.result])
 
+  const activeClassFormulaIds = useMemo(() => {
+    const classData = formulaClasses.find((c) => c.id === activeClassId)
+    if (!classData) return []
+    return classData.categories.flatMap((cat) => cat.formulas.map((f) => f.id))
+  }, [activeClassId])
+
+  const allClassSelected =
+    activeClassFormulaIds.length > 0 &&
+    activeClassFormulaIds.every((id) => draft.selectedFormulaIds.includes(id))
+
   function toggleFormula(formulaId: string) {
     const nextSelected = draft.selectedFormulaIds.includes(formulaId)
       ? draft.selectedFormulaIds.filter((id) => id !== formulaId)
       : [...draft.selectedFormulaIds, formulaId]
 
     persistDraft({ selectedFormulaIds: nextSelected })
+  }
+
+  function toggleIds(ids: string[]) {
+    const allSelected = ids.every((id) =>
+      draft.selectedFormulaIds.includes(id),
+    )
+    if (allSelected) {
+      const remove = new Set(ids)
+      persistDraft({
+        selectedFormulaIds: draft.selectedFormulaIds.filter(
+          (id) => !remove.has(id),
+        ),
+      })
+    } else {
+      const existing = new Set(draft.selectedFormulaIds)
+      const added = ids.filter((id) => !existing.has(id))
+      persistDraft({
+        selectedFormulaIds: [...draft.selectedFormulaIds, ...added],
+      })
+    }
+  }
+
+  function toggleClass() {
+    toggleIds(activeClassFormulaIds)
   }
 
   async function resolvePdfForDownload() {
@@ -364,8 +398,8 @@ function Home() {
               </div>
             </div>
 
-            <div className="p-4">
-              <label className="relative block">
+            <div className="flex items-center gap-2 p-4">
+              <label className="relative block flex-1">
                 <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                 <input
                   value={search}
@@ -383,6 +417,13 @@ function Home() {
                   </button>
                 ) : null}
               </label>
+              <button
+                type="button"
+                onClick={toggleClass}
+                className="shrink-0 rounded-lg border border-border bg-background px-3 py-2 text-xs font-semibold text-foreground transition-colors hover:bg-secondary"
+              >
+                {allClassSelected ? 'Deselect All' : 'Select All'}
+              </button>
             </div>
 
             {/* Formula list */}
@@ -394,14 +435,42 @@ function Home() {
               ) : (
                 <div className="space-y-3">
                   {visibleClasses.map((classData) =>
-                    classData.categories.map((category) => (
+                    classData.categories.map((category) => {
+                      const categoryIds = category.formulas.map((f) => f.id)
+                      const allCatSelected =
+                        categoryIds.length > 0 &&
+                        categoryIds.every((id) =>
+                          draft.selectedFormulaIds.includes(id),
+                        )
+                      const someCatSelected =
+                        !allCatSelected &&
+                        categoryIds.some((id) =>
+                          draft.selectedFormulaIds.includes(id),
+                        )
+
+                      return (
                       <details
                         key={category.id}
                         open
                         className="group rounded-lg border border-border"
                       >
                         <summary className="flex cursor-pointer items-center justify-between gap-3 px-3 py-2.5 text-xs font-semibold text-foreground">
-                          <span>{category.name}</span>
+                          <span className="flex items-center gap-2">
+                            <input
+                              type="checkbox"
+                              checked={allCatSelected}
+                              ref={(el) => {
+                                if (el) el.indeterminate = someCatSelected
+                              }}
+                              onChange={(e) => {
+                                e.stopPropagation()
+                                toggleIds(categoryIds)
+                              }}
+                              onClick={(e) => e.stopPropagation()}
+                              className="h-4 w-4 rounded border-border"
+                            />
+                            {category.name}
+                          </span>
                           <span className="flex items-center gap-2">
                             <span className="tabular-nums text-muted-foreground">
                               {category.formulas.length}
@@ -450,7 +519,8 @@ function Home() {
                           })}
                         </div>
                       </details>
-                    )),
+                      )
+                    }),
                   )}
                 </div>
               )}
