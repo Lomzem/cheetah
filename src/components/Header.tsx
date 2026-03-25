@@ -27,15 +27,6 @@ export default function Header() {
           >
             Builder
           </Link>
-          <Link
-            to="/about"
-            className="rounded-md px-3 py-1.5 text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground [&.active]:bg-primary [&.active]:text-primary-foreground"
-            activeProps={{
-              className: 'active',
-            }}
-          >
-            About
-          </Link>
         </div>
 
         <div className="ml-auto">

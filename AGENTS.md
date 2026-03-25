@@ -1,2 +1,3 @@
+- ALWAYS use `bun` instead of `npm` or `node`
 - TanStack DB draft state is intentionally client-only via `useSheetDraft()` in `src/lib/sheet.ts`; avoid `useLiveQuery` in SSR routes.
 - Formula preview rendering uses `katex.renderToString(...)`, not `react-katex`, because SSR interop was brittle.
