@@ -157,18 +157,16 @@ function Home() {
 
   useEffect(() => {
     if (!previewState.result?.ok || !previewState.result.pdfBase64) {
-      setPdfUrl(undefined)
       return
     }
 
     const url = URL.createObjectURL(
       base64ToBlob(previewState.result.pdfBase64, 'application/pdf'),
     )
-    setPdfUrl(url)
-
-    return () => {
-      URL.revokeObjectURL(url)
-    }
+    setPdfUrl((prev) => {
+      if (prev) URL.revokeObjectURL(prev)
+      return url
+    })
   }, [previewState.result])
 
   function toggleFormula(formulaId: string) {
@@ -572,32 +570,41 @@ function Home() {
           </div>
 
           {/* PDF iframe or .tex source */}
-          <div className="overflow-hidden rounded-xl border border-border bg-card shadow-sm">
+          <div className="relative overflow-hidden rounded-xl border border-border bg-card shadow-sm">
             {showTex ? (
               <pre className="h-[72vh] min-h-[500px] overflow-auto p-4 font-mono text-[12px] leading-6 text-foreground">
                 {texSource}
               </pre>
-            ) : pdfUrl && previewResult?.ok && !previewResult.overflow ? (
-              <iframe
-                key={pdfUrl}
-                title="Cheat sheet preview"
-                src={pdfUrl}
-                className="h-[72vh] min-h-[500px] w-full bg-white"
-              />
+            ) : pdfUrl ? (
+              <>
+                {previewState.status === 'loading' ? (
+                  <div className="absolute inset-x-0 top-0 z-10 flex items-center justify-center gap-2 bg-secondary/90 py-1.5 text-xs font-medium text-muted-foreground backdrop-blur-sm">
+                    <LoaderCircle className="h-3.5 w-3.5 animate-spin" />
+                    Recompiling...
+                  </div>
+                ) : null}
+                <iframe
+                  key={pdfUrl}
+                  title="Cheat sheet preview"
+                  src={pdfUrl}
+                  className={`h-[72vh] min-h-[500px] w-full bg-white ${previewState.status === 'loading' ? 'opacity-50' : ''}`}
+                />
+              </>
             ) : (
               <div className="dot-bg flex h-[72vh] min-h-[500px] items-center justify-center p-8 text-center">
                 <div className="max-w-xs space-y-3">
                   <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-secondary">
-                    <Eye className="h-5 w-5 text-muted-foreground" />
+                    {previewState.status === 'loading' ? (
+                      <LoaderCircle className="h-5 w-5 animate-spin text-muted-foreground" />
+                    ) : (
+                      <Eye className="h-5 w-5 text-muted-foreground" />
+                    )}
                   </div>
                   <p className="font-display text-base font-bold text-foreground">
-                    Waiting for compiler
+                    {previewState.status === 'loading' ? 'Compiling...' : 'No preview yet'}
                   </p>
                   <p className="text-xs leading-relaxed text-muted-foreground">
-                    Set <code className="rounded bg-secondary px-1 py-0.5 font-mono text-[11px]">LATEX_COMPILER_URL</code>{' '}
-                    or install{' '}
-                    <code className="rounded bg-secondary px-1 py-0.5 font-mono text-[11px]">tectonic</code>{' '}
-                    locally.
+                    Select some formulas to generate a preview.
                   </p>
                 </div>
               </div>
