@@ -194,6 +194,7 @@ function useTypstPreview(source: string, enabled: boolean) {
 
     const requestId = requestIdRef.current + 1
     requestIdRef.current = requestId
+    setData(undefined)
     setIsFetching(true)
     setError(undefined)
 
@@ -210,6 +211,7 @@ function useTypstPreview(source: string, enabled: boolean) {
           return
         }
 
+        setData(undefined)
         setError(
           nextError instanceof Error
             ? nextError
@@ -396,6 +398,13 @@ function Home() {
 
   useEffect(() => {
     if (!previewQuery.data?.ok || !previewQuery.data.pdfData) {
+      setPdfUrl((prev) => {
+        if (prev) {
+          URL.revokeObjectURL(prev)
+        }
+
+        return undefined
+      })
       return
     }
 
