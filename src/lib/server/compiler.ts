@@ -55,7 +55,7 @@ async function compileWithRemoteService(
       tex,
       layoutMode,
       compilerMode: 'remote',
-      message: `Remote compiler returned ${response.status}.`,
+      message: 'Compiler unavailable.',
     }
   }
 
