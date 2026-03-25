@@ -59,7 +59,7 @@ function renderTextHeavyFormula(formula: string) {
   return formula.replaceAll('"', '').replace(/\s+/g, ' ').trim()
 }
 
-function renderFormula(formula: { name: string; typst: string }) {
+export function renderFormula(formula: { name: string; typst: string }) {
   if (isTextHeavyFormula(formula.typst)) {
     return `*${escapeTypstText(formula.name)}*
 #block(width: 100%)[${escapeTypstText(renderTextHeavyFormula(formula.typst))}]`

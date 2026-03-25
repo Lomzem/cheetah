@@ -144,7 +144,7 @@
         {
           "id": "algebra-i-quadratic-equations-quadratic-formula",
           "name": "Quadratic Formula",
-          "typst": "x = (-b p l u s.m i n u s sqrt(b^2 - 4 a c)) / (2 a)"
+          "typst": "x = (-b plus.minus sqrt(b^2 - 4 a c)) / (2 a)"
         },
         {
           "id": "algebra-i-quadratic-equations-vertex-form",
@@ -191,17 +191,17 @@
         {
           "id": "algebra-i-exponents-product-rule",
           "name": "Product Rule",
-          "typst": "a^m a^n = a^m+n"
+          "typst": "a^m a^n = a^(m+n)"
         },
         {
           "id": "algebra-i-exponents-quotient-rule",
           "name": "Quotient Rule",
-          "typst": "(a^m) / (a^n)=a^m-n"
+          "typst": "(a^m) / (a^n)=a^(m-n)"
         },
         {
           "id": "algebra-i-exponents-power-rule",
           "name": "Power Rule",
-          "typst": "(a^m)^n=a^m n"
+          "typst": "(a^m)^n=a^(m n)"
         },
         {
           "id": "algebra-i-exponents-negative-exponent",
@@ -216,7 +216,7 @@
         {
           "id": "algebra-i-exponents-radical-to-exponent",
           "name": "Radical to Exponent",
-          "typst": "root(n, a^m)=a^m/n"
+          "typst": "root(n, a^m)=a^(m/n)"
         }
       ]
     },
@@ -237,7 +237,7 @@
         {
           "id": "algebra-i-radicals-like-radicals",
           "name": "Like Radicals",
-          "typst": "a s q r t(b)+c s q r t(b)=(a+c)sqrt(b)"
+          "typst": "a sqrt(b)+c sqrt(b)=(a+c)sqrt(b)"
         },
         {
           "id": "algebra-i-radicals-square-of-square-root",

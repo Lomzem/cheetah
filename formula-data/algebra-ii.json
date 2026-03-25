@@ -81,12 +81,12 @@
         {
           "id": "algebra-ii-exponential-functions-continuous-growth",
           "name": "Continuous Growth",
-          "typst": "A=P e^r t"
+          "typst": "A=P e^(r t)"
         },
         {
           "id": "algebra-ii-exponential-functions-growth-decay",
           "name": "Growth/Decay",
-          "typst": "y=a e^k x ; (k>0 \"growth\", k<0 \"decay\")"
+          "typst": "y=a e^(k x) ; (k>0 \"growth\", k<0 \"decay\")"
         }
       ]
     },
@@ -169,7 +169,7 @@
         {
           "id": "algebra-ii-sequences-and-series-geometric-sequence",
           "name": "Geometric Sequence",
-          "typst": "a_n=a_1 r^n-1"
+          "typst": "a_n=a_1 r^(n-1)"
         },
         {
           "id": "algebra-ii-sequences-and-series-geometric-sum",

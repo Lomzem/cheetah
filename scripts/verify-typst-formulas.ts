@@ -3,6 +3,7 @@ import path from 'node:path'
 import wasm from '@myriaddreamin/typst-ts-web-compiler/wasm'
 import { createTypstCompiler, loadFonts } from '@myriaddreamin/typst.ts'
 import { CompileFormatEnum } from '@myriaddreamin/typst.ts/compiler'
+import { renderFormula } from '#/lib/typst/document'
 
 type Formula = {
   id: string
@@ -42,7 +43,7 @@ for (const relativePath of files) {
       await compiler.reset()
       compiler.addSource(
         '/main.typ',
-        `#set page(width: 8.5in, height: auto)\n$ ${formula.typst} $`,
+        `#set page(width: 8.5in, height: auto)\n${renderFormula(formula)}`,
       )
 
       const result = await compiler.compile({
