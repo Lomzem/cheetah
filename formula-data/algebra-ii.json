@@ -9,22 +9,22 @@
         {
           "id": "algebra-ii-complex-numbers-imaginary-unit",
           "name": "Imaginary Unit",
-          "latex": "i=\\sqrt{-1} \\quad\\quad i^2=-1"
+          "typst": "i=sqrt(-1) ; ; i^2=-1"
         },
         {
           "id": "algebra-ii-complex-numbers-addition",
           "name": "Addition",
-          "latex": "(a+bi)+(c+di)=(a+c)+(b+d)i"
+          "typst": "(a+b i)+(c+d i)=(a+c)+(b+d)i"
         },
         {
           "id": "algebra-ii-complex-numbers-multiplication",
           "name": "Multiplication",
-          "latex": "(a+bi)(c+di)=(ac-bd)+(ad+bc)i"
+          "typst": "(a+b i)(c+d i)=(a c-b d)+(a d+b c)i"
         },
         {
           "id": "algebra-ii-complex-numbers-magnitude",
           "name": "Magnitude",
-          "latex": "|a+bi|=\\sqrt{a^2+b^2}"
+          "typst": "|a+b i|=sqrt(a^2+b^2)"
         }
       ]
     },
@@ -35,32 +35,32 @@
         {
           "id": "algebra-ii-logarithms-definition",
           "name": "Definition",
-          "latex": "\\log_b(a)=c \\iff b^c=a"
+          "typst": "log _b(a)=c <=> b^c=a"
         },
         {
           "id": "algebra-ii-logarithms-product-rule",
           "name": "Product Rule",
-          "latex": "\\log_b(xy)=\\log_b(x)+\\log_b(y)"
+          "typst": "log _b(x y)= log _b(x)+ log _b(y)"
         },
         {
           "id": "algebra-ii-logarithms-quotient-rule",
           "name": "Quotient Rule",
-          "latex": "\\log_b\\!\\left(\\frac{x}{y}\\right)=\\log_b(x)-\\log_b(y)"
+          "typst": "log_b((x) / (y)) = log_b(x) - log_b(y)"
         },
         {
           "id": "algebra-ii-logarithms-power-rule",
           "name": "Power Rule",
-          "latex": "\\log_b(x^n)=n\\log_b(x)"
+          "typst": "log _b(x^n)=n log _b(x)"
         },
         {
           "id": "algebra-ii-logarithms-change-of-base",
           "name": "Change of Base",
-          "latex": "\\log_b(a)=\\frac{\\ln(a)}{\\ln(b)}"
+          "typst": "log _b(a)=(ln (a)) / (ln (b))"
         },
         {
           "id": "algebra-ii-logarithms-special-values",
           "name": "Special Values",
-          "latex": "\\log_b(1)=0 \\quad\\quad \\log_b(b)=1"
+          "typst": "log _b(1)=0 ; ; log _b(b)=1"
         }
       ]
     },
@@ -71,22 +71,22 @@
         {
           "id": "algebra-ii-exponential-functions-basic-form",
           "name": "Basic Form",
-          "latex": "y=ab^x"
+          "typst": "y=a b^x"
         },
         {
           "id": "algebra-ii-exponential-functions-compound-interest",
           "name": "Compound Interest",
-          "latex": "A=P\\!\\left(1+\\frac{r}{n}\\right)^{nt}"
+          "typst": "A = P (1 + (r) / (n))^(n t)"
         },
         {
           "id": "algebra-ii-exponential-functions-continuous-growth",
           "name": "Continuous Growth",
-          "latex": "A=Pe^{rt}"
+          "typst": "A=P e^r t"
         },
         {
           "id": "algebra-ii-exponential-functions-growth-decay",
           "name": "Growth/Decay",
-          "latex": "y=ae^{kx} \\quad (k>0 \\text{ growth}, \\; k<0 \\text{ decay})"
+          "typst": "y=a e^k x ; (k>0 \"growth\", k<0 \"decay\")"
         }
       ]
     },
@@ -97,27 +97,27 @@
         {
           "id": "algebra-ii-polynomial-theorems-remainder-theorem",
           "name": "Remainder Theorem",
-          "latex": "\\text{Remainder Thm: } f(a)=\\text{remainder of } f(x)\\div(x-a)"
+          "typst": "\"Remainder Thm:\" f(a)=\"remainder of\" f(x) div (x-a)"
         },
         {
           "id": "algebra-ii-polynomial-theorems-factor-theorem",
           "name": "Factor Theorem",
-          "latex": "\\text{Factor Thm: } f(a)=0 \\implies (x-a) \\text{ is a factor}"
+          "typst": "\"Factor Thm:\" f(a)=0 => (x-a) \"is a factor\""
         },
         {
           "id": "algebra-ii-polynomial-theorems-rational-root-theorem",
           "name": "Rational Root Theorem",
-          "latex": "\\text{Rational Root Thm: } \\frac{p}{q}, \\; p\\mid a_0, \\; q\\mid a_n"
+          "typst": "\"Rational Root Thm:\" (p) / (q), p | a_0, q | a_n"
         },
         {
           "id": "algebra-ii-polynomial-theorems-descartes-rule",
           "name": "Descartes' Rule",
-          "latex": "\\text{Descartes' Rule: sign changes} \\to \\text{positive roots}"
+          "typst": "\"Descartes' Rule: sign changes\" -> \"positive roots\""
         },
         {
           "id": "algebra-ii-polynomial-theorems-fundamental-theorem",
           "name": "Fundamental Theorem",
-          "latex": "\\text{Degree } n \\text{ polynomial has at most } n \\text{ roots}"
+          "typst": "\"Degree\" n \"polynomial has at most\" n \"roots\""
         }
       ]
     },
@@ -128,27 +128,27 @@
         {
           "id": "algebra-ii-conic-sections-circle",
           "name": "Circle",
-          "latex": "(x-h)^2+(y-k)^2=r^2"
+          "typst": "(x-h)^2+(y-k)^2=r^2"
         },
         {
           "id": "algebra-ii-conic-sections-ellipse",
           "name": "Ellipse",
-          "latex": "\\frac{(x-h)^2}{a^2}+\\frac{(y-k)^2}{b^2}=1"
+          "typst": "((x-h)^2) / (a^2)+((y-k)^2) / (b^2)=1"
         },
         {
           "id": "algebra-ii-conic-sections-hyperbola",
           "name": "Hyperbola",
-          "latex": "\\frac{(x-h)^2}{a^2}-\\frac{(y-k)^2}{b^2}=1"
+          "typst": "((x-h)^2) / (a^2)-((y-k)^2) / (b^2)=1"
         },
         {
           "id": "algebra-ii-conic-sections-parabola",
           "name": "Parabola",
-          "latex": "y=a(x-h)^2+k"
+          "typst": "y=a(x-h)^2+k"
         },
         {
           "id": "algebra-ii-conic-sections-focal-distance",
           "name": "Focal Distance",
-          "latex": "c^2=a^2-b^2 \\;\\text{(Ellipse)} \\quad c^2=a^2+b^2 \\;\\text{(Hyperbola)}"
+          "typst": "c^2=a^2-b^2 \"(Ellipse)\" ; c^2=a^2+b^2 \"(Hyperbola)\""
         }
       ]
     },
@@ -159,27 +159,27 @@
         {
           "id": "algebra-ii-sequences-and-series-arithmetic-sequence",
           "name": "Arithmetic Sequence",
-          "latex": "a_n=a_1+(n-1)d"
+          "typst": "a_n=a_1+(n-1)d"
         },
         {
           "id": "algebra-ii-sequences-and-series-arithmetic-sum",
           "name": "Arithmetic Sum",
-          "latex": "S_n=\\frac{n}{2}(a_1+a_n)"
+          "typst": "S_n=(n) / (2)(a_1+a_n)"
         },
         {
           "id": "algebra-ii-sequences-and-series-geometric-sequence",
           "name": "Geometric Sequence",
-          "latex": "a_n=a_1 r^{n-1}"
+          "typst": "a_n=a_1 r^n-1"
         },
         {
           "id": "algebra-ii-sequences-and-series-geometric-sum",
           "name": "Geometric Sum",
-          "latex": "S_n=a_1\\frac{1-r^n}{1-r}"
+          "typst": "S_n=a_1(1-r^n) / (1-r)"
         },
         {
           "id": "algebra-ii-sequences-and-series-infinite-geometric-sum",
           "name": "Infinite Geometric Sum",
-          "latex": "S_\\infty=\\frac{a_1}{1-r} \\quad |r|<1"
+          "typst": "S_\"∞\" = (a_1) / (1-r) ; |r| < 1"
         }
       ]
     },
@@ -190,17 +190,17 @@
         {
           "id": "algebra-ii-matrices-2x2-inverse",
           "name": "2x2 Inverse",
-          "latex": "\\begin{bmatrix}a&b\\\\c&d\\end{bmatrix}^{-1}=\\frac{1}{ad-bc}\\begin{bmatrix}d&-b\\\\-c&a\\end{bmatrix}"
+          "typst": "mat(a, b; c, d)^(-1) = (1) / (a d - b c) * mat(d, -b; -c, a)"
         },
         {
           "id": "algebra-ii-matrices-determinant",
           "name": "Determinant",
-          "latex": "\\det\\begin{bmatrix}a&b\\\\c&d\\end{bmatrix}=ad-bc"
+          "typst": "det mat(a, b; c, d) = a d - b c"
         },
         {
           "id": "algebra-ii-matrices-identity-property",
           "name": "Identity Property",
-          "latex": "A\\cdot A^{-1}=I"
+          "typst": "A dot A^-1=I"
         }
       ]
     },
@@ -211,17 +211,17 @@
         {
           "id": "algebra-ii-binomial-theorem-expansion",
           "name": "Expansion",
-          "latex": "(a+b)^n=\\sum_{k=0}^{n}\\binom{n}{k}a^{n-k}b^k"
+          "typst": "(a + b)^n = sum_(k = 0)^n binom(n, k) a^(n - k) b^k"
         },
         {
           "id": "algebra-ii-binomial-theorem-binomial-coefficient",
           "name": "Binomial Coefficient",
-          "latex": "\\binom{n}{k}=\\frac{n!}{k!(n-k)!}"
+          "typst": "binom(n, k) = (n!) / (k! (n - k)!)"
         },
         {
           "id": "algebra-ii-binomial-theorem-factorial",
           "name": "Factorial",
-          "latex": "n!=n(n-1)(n-2)\\cdots(2)(1) \\quad\\quad 0!=1"
+          "typst": "n! = n(n - 1)(n - 2) ... (2)(1) ; 0! = 1"
         }
       ]
     }

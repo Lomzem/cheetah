@@ -1,8 +1,17 @@
 # Cheetah Cheat Sheets
 
-A TanStack Start app for building one-page math cheat sheets from a curated JSON formula library. Users can select formulas, choose `1/2/3` columns, add plain-text notes, preview the generated PDF, and download the matching `.tex` source.
+Static Vite + React app for building math cheat sheets from a curated JSON formula library. The app compiles Typst directly in the browser, previews the generated PDF client-side, and downloads both `.pdf` and `.typ` files without any backend.
 
-## App setup
+## Stack
+
+- Vite
+- React
+- Tailwind CSS
+- shadcn/ui primitives already present in the codebase
+- bun
+- Typst via `@myriaddreamin/typst.ts`
+
+## Local development
 
 ```bash
 bun install
@@ -11,42 +20,22 @@ bun run dev
 
 ## Formula data
 
-The formula library lives in `formula-data/` as JSON.
-
-## Tectonic compiler service
-
-The app can compile locally if `tectonic` is installed, but the preferred deployment path is the Dockerized compiler service in `services/latex-compiler/`.
-
-Build and run it directly:
-
-```bash
-docker build -t cheetah-tectonic services/latex-compiler
-docker run --rm -p 8080:8080 cheetah-tectonic
-```
-
-Or with Compose:
-
-```bash
-docker compose up --build latex-compiler
-```
-
-Then point the app at it:
-
-```bash
-LATEX_COMPILER_URL=http://localhost:8080/compile
-```
-
-Health check:
-
-```bash
-curl http://localhost:8080/health
-```
+The formula library lives in `formula-data/` as static JSON. Each formula now stores a `typst` expression.
 
 ## Quality checks
 
 ```bash
+bun run verify:typst
 bun run lint
-bun run format
-bun run check
 bun run build
+```
+
+## GitHub Pages
+
+This app is built for static hosting.
+
+If you are deploying to a repository subpath on GitHub Pages, set `VITE_BASE_PATH` when building:
+
+```bash
+VITE_BASE_PATH=/your-repo-name/ bun run build
 ```

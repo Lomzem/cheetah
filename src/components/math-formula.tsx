@@ -1,20 +1,11 @@
-import katex from 'katex'
-
 type MathFormulaProps = {
-  latex: string
+  typst: string
 }
 
-export function MathFormula({ latex }: MathFormulaProps) {
-  try {
-    const html = katex.renderToString(latex, {
-      displayMode: true,
-      throwOnError: true,
-      output: 'html',
-      strict: 'warn',
-    })
-
-    return <div dangerouslySetInnerHTML={{ __html: html }} />
-  } catch {
-    return <code className="text-xs text-stone-600">{latex}</code>
-  }
+export function MathFormula({ typst }: MathFormulaProps) {
+  return (
+    <pre className="overflow-x-auto whitespace-pre-wrap break-words font-mono text-[11px] leading-relaxed text-muted-foreground">
+      {typst}
+    </pre>
+  )
 }

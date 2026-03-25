@@ -9,22 +9,22 @@
         {
           "id": "geometry-basic-angle-relationships-supplementary",
           "name": "Supplementary",
-          "latex": "\\text{Supplementary: } a+b=180^\\circ"
+          "typst": "\"Supplementary:\" a+b=180^ \"deg\""
         },
         {
           "id": "geometry-basic-angle-relationships-complementary",
           "name": "Complementary",
-          "latex": "\\text{Complementary: } a+b=90^\\circ"
+          "typst": "\"Complementary:\" a+b=90^ \"deg\""
         },
         {
           "id": "geometry-basic-angle-relationships-vertical-angles",
           "name": "Vertical Angles",
-          "latex": "\\text{Vertical angles are congruent}"
+          "typst": "\"Vertical angles are congruent\""
         },
         {
           "id": "geometry-basic-angle-relationships-linear-pair",
           "name": "Linear Pair",
-          "latex": "\\text{Linear pair: supplementary and adjacent}"
+          "typst": "\"Linear pair: supplementary and adjacent\""
         }
       ]
     },
@@ -35,22 +35,22 @@
         {
           "id": "geometry-parallel-lines-and-transversals-corresponding-angles",
           "name": "Corresponding Angles",
-          "latex": "\\text{Corresponding angles are congruent}"
+          "typst": "\"Corresponding angles are congruent\""
         },
         {
           "id": "geometry-parallel-lines-and-transversals-alternate-interior",
           "name": "Alternate Interior",
-          "latex": "\\text{Alternate interior angles are congruent}"
+          "typst": "\"Alternate interior angles are congruent\""
         },
         {
           "id": "geometry-parallel-lines-and-transversals-alternate-exterior",
           "name": "Alternate Exterior",
-          "latex": "\\text{Alternate exterior angles are congruent}"
+          "typst": "\"Alternate exterior angles are congruent\""
         },
         {
           "id": "geometry-parallel-lines-and-transversals-co-interior",
           "name": "Co-interior",
-          "latex": "\\text{Co-interior (same-side interior) angles are supplementary}"
+          "typst": "\"Co-interior (same-side interior) angles are supplementary\""
         }
       ]
     },
@@ -61,27 +61,27 @@
         {
           "id": "geometry-triangles-angle-sum",
           "name": "Angle Sum",
-          "latex": "A+B+C=180^\\circ"
+          "typst": "A+B+C=180^ \"deg\""
         },
         {
           "id": "geometry-triangles-exterior-angle",
           "name": "Exterior Angle",
-          "latex": "\\text{Exterior angle} = \\text{sum of two remote interior angles}"
+          "typst": "\"Exterior angle\" = \"sum of two remote interior angles\""
         },
         {
           "id": "geometry-triangles-area",
           "name": "Area",
-          "latex": "A=\\frac{1}{2}bh"
+          "typst": "A=(1) / (2)b h"
         },
         {
           "id": "geometry-triangles-heron-s-formula",
           "name": "Heron's Formula",
-          "latex": "A=\\sqrt{s(s-a)(s-b)(s-c)} \\quad s=\\frac{a+b+c}{2}"
+          "typst": "A=sqrt(s(s-a)(s-b)(s-c)) ; s=(a+b+c) / (2)"
         },
         {
           "id": "geometry-triangles-triangle-inequality",
           "name": "Triangle Inequality",
-          "latex": "a+b>c"
+          "typst": "a+b>c"
         }
       ]
     },
@@ -92,17 +92,17 @@
         {
           "id": "geometry-pythagorean-theorem-theorem",
           "name": "Theorem",
-          "latex": "a^2+b^2=c^2"
+          "typst": "a^2+b^2=c^2"
         },
         {
           "id": "geometry-pythagorean-theorem-solve-for-c",
           "name": "Solve for c",
-          "latex": "c=\\sqrt{a^2+b^2}"
+          "typst": "c=sqrt(a^2+b^2)"
         },
         {
           "id": "geometry-pythagorean-theorem-common-triples",
           "name": "Common Triples",
-          "latex": "\\text{Common triples: } (3,4,5),\\;(5,12,13),\\;(8,15,17),\\;(7,24,25)"
+          "typst": "\"Common triples:\" (3,4,5), (5,12,13), (8,15,17), (7,24,25)"
         }
       ]
     },
@@ -113,22 +113,22 @@
         {
           "id": "geometry-similar-and-congruent-triangles-congruence-rules",
           "name": "Congruence Rules",
-          "latex": "\\text{Congruence: SSS, SAS, ASA, AAS, HL}"
+          "typst": "\"Congruence: SSS, SAS, ASA, AAS, HL\""
         },
         {
           "id": "geometry-similar-and-congruent-triangles-similarity-rules",
           "name": "Similarity Rules",
-          "latex": "\\text{Similarity: AA, SAS, SSS}"
+          "typst": "\"Similarity: AA, SAS, SSS\""
         },
         {
           "id": "geometry-similar-and-congruent-triangles-proportional-sides",
           "name": "Proportional Sides",
-          "latex": "\\frac{a_1}{a_2}=\\frac{b_1}{b_2}=\\frac{c_1}{c_2}"
+          "typst": "(a_1) / (a_2)=(b_1) / (b_2)=(c_1) / (c_2)"
         },
         {
           "id": "geometry-similar-and-congruent-triangles-area-ratio",
           "name": "Area Ratio",
-          "latex": "\\frac{A_1}{A_2}=\\left(\\frac{s_1}{s_2}\\right)^2"
+          "typst": "(A_1) / (A_2)=((s_1) / (s_2))^2"
         }
       ]
     },
@@ -139,27 +139,27 @@
         {
           "id": "geometry-quadrilaterals-interior-angles",
           "name": "Interior Angles",
-          "latex": "\\text{Sum of interior angles} = 360^\\circ"
+          "typst": "\"Sum of interior angles\" = 360^ \"deg\""
         },
         {
           "id": "geometry-quadrilaterals-rectangle-square",
           "name": "Rectangle/Square",
-          "latex": "A_{\\text{rect}}=lw \\quad\\quad A_{\\text{square}}=s^2"
+          "typst": "A_\"rect\"=l w ; ; A_\"square\"=s^2"
         },
         {
           "id": "geometry-quadrilaterals-parallelogram",
           "name": "Parallelogram",
-          "latex": "A_{\\text{parallelogram}}=bh"
+          "typst": "A_\"parallelogram\"=b h"
         },
         {
           "id": "geometry-quadrilaterals-trapezoid",
           "name": "Trapezoid",
-          "latex": "A_{\\text{trapezoid}}=\\frac{1}{2}(b_1+b_2)h"
+          "typst": "A_\"trapezoid\"=(1) / (2)(b_1+b_2)h"
         },
         {
           "id": "geometry-quadrilaterals-rhombus",
           "name": "Rhombus",
-          "latex": "A_{\\text{rhombus}}=\\frac{1}{2}d_1 d_2"
+          "typst": "A_\"rhombus\"=(1) / (2)d_1 d_2"
         }
       ]
     },
@@ -170,22 +170,22 @@
         {
           "id": "geometry-polygons-interior-sum",
           "name": "Interior Sum",
-          "latex": "\\text{Sum of interior angles}=(n-2)\\cdot 180^\\circ"
+          "typst": "\"Sum of interior angles\"=(n-2) dot 180^ \"deg\""
         },
         {
           "id": "geometry-polygons-interior-angle",
           "name": "Interior Angle",
-          "latex": "\\text{Each interior angle (regular)}=\\frac{(n-2)\\cdot 180^\\circ}{n}"
+          "typst": "\"Each interior angle (regular)\"=((n-2) dot 180^ \"deg\") / (n)"
         },
         {
           "id": "geometry-polygons-exterior-angle",
           "name": "Exterior Angle",
-          "latex": "\\text{Each exterior angle (regular)}=\\frac{360^\\circ}{n}"
+          "typst": "\"Each exterior angle (regular)\"=(360^ \"deg\") / (n)"
         },
         {
           "id": "geometry-polygons-diagonals",
           "name": "Diagonals",
-          "latex": "\\text{Number of diagonals}=\\frac{n(n-3)}{2}"
+          "typst": "\"Number of diagonals\"=(n(n-3)) / (2)"
         }
       ]
     },
@@ -196,32 +196,32 @@
         {
           "id": "geometry-circles-circumference",
           "name": "Circumference",
-          "latex": "C=2\\pi r=\\pi d"
+          "typst": "C=2 pi r= pi d"
         },
         {
           "id": "geometry-circles-area",
           "name": "Area",
-          "latex": "A=\\pi r^2"
+          "typst": "A= pi r^2"
         },
         {
           "id": "geometry-circles-arc-length",
           "name": "Arc Length",
-          "latex": "\\text{Arc length}=\\frac{\\theta}{360}\\cdot 2\\pi r"
+          "typst": "\"Arc length\"=(theta) / (360) dot 2 pi r"
         },
         {
           "id": "geometry-circles-sector-area",
           "name": "Sector Area",
-          "latex": "\\text{Sector area}=\\frac{\\theta}{360}\\cdot\\pi r^2"
+          "typst": "\"Sector area\"=(theta) / (360) dot pi r^2"
         },
         {
           "id": "geometry-circles-inscribed-angle",
           "name": "Inscribed Angle",
-          "latex": "\\text{Inscribed angle}=\\frac{1}{2}\\text{(intercepted arc)}"
+          "typst": "\"Inscribed angle\"=(1) / (2)\"(intercepted arc)\""
         },
         {
           "id": "geometry-circles-central-angle",
           "name": "Central Angle",
-          "latex": "\\text{Central angle}=\\text{intercepted arc}"
+          "typst": "\"Central angle\"=\"intercepted arc\""
         }
       ]
     },
@@ -232,27 +232,27 @@
         {
           "id": "geometry-circle-theorems-tangent-radius",
           "name": "Tangent-Radius",
-          "latex": "\\text{Tangent} \\perp \\text{radius at point of tangency}"
+          "typst": "\"Tangent\" perp \"radius at point of tangency\""
         },
         {
           "id": "geometry-circle-theorems-equal-tangents",
           "name": "Equal Tangents",
-          "latex": "\\text{Two tangents from external point are equal}"
+          "typst": "\"Two tangents from external point are equal\""
         },
         {
           "id": "geometry-circle-theorems-intersecting-chords",
           "name": "Intersecting Chords",
-          "latex": "\\text{Intersecting chords: } (a)(b)=(c)(d)"
+          "typst": "\"Intersecting chords:\" (a)(b)=(c)(d)"
         },
         {
           "id": "geometry-circle-theorems-secant-secant",
           "name": "Secant-Secant",
-          "latex": "\\text{Secant-secant: } a(a+b)=c(c+d)"
+          "typst": "\"Secant-secant:\" a(a+b)=c(c+d)"
         },
         {
           "id": "geometry-circle-theorems-secant-tangent",
           "name": "Secant-Tangent",
-          "latex": "\\text{Secant-tangent: } t^2=a(a+b)"
+          "typst": "\"Secant-tangent:\" t^2=a(a+b)"
         }
       ]
     },
@@ -263,17 +263,17 @@
         {
           "id": "geometry-coordinate-geometry-distance-formula",
           "name": "Distance Formula",
-          "latex": "d=\\sqrt{(x_2-x_1)^2+(y_2-y_1)^2}"
+          "typst": "d=sqrt((x_2-x_1)^2+(y_2-y_1)^2)"
         },
         {
           "id": "geometry-coordinate-geometry-midpoint-formula",
           "name": "Midpoint Formula",
-          "latex": "M=\\left(\\frac{x_1+x_2}{2},\\;\\frac{y_1+y_2}{2}\\right)"
+          "typst": "M=((x_1+x_2) / (2), (y_1+y_2) / (2))"
         },
         {
           "id": "geometry-coordinate-geometry-circle-equation",
           "name": "Circle Equation",
-          "latex": "(x-h)^2+(y-k)^2=r^2"
+          "typst": "(x-h)^2+(y-k)^2=r^2"
         }
       ]
     },
@@ -284,27 +284,27 @@
         {
           "id": "geometry-surface-area-and-volume-prism",
           "name": "Prism",
-          "latex": "V_{\\text{prism}}=Bh \\quad\\quad SA_{\\text{prism}}=2B+Ph"
+          "typst": "V_\"prism\"=B h ; ; S A_\"prism\"=2B+P h"
         },
         {
           "id": "geometry-surface-area-and-volume-cylinder",
           "name": "Cylinder",
-          "latex": "V_{\\text{cylinder}}=\\pi r^2 h \\quad\\quad SA_{\\text{cylinder}}=2\\pi r^2+2\\pi rh"
+          "typst": "V_\"cylinder\"= pi r^2 h ; ; S A_\"cylinder\"=2 pi r^2+2 pi r h"
         },
         {
           "id": "geometry-surface-area-and-volume-pyramid",
           "name": "Pyramid",
-          "latex": "V_{\\text{pyramid}}=\\frac{1}{3}Bh"
+          "typst": "V_\"pyramid\"=(1) / (3)B h"
         },
         {
           "id": "geometry-surface-area-and-volume-cone",
           "name": "Cone",
-          "latex": "V_{\\text{cone}}=\\frac{1}{3}\\pi r^2 h \\quad\\quad SA_{\\text{cone}}=\\pi r^2+\\pi r l"
+          "typst": "V_\"cone\"=(1) / (3) pi r^2 h ; ; S A_\"cone\"= pi r^2+ pi r l"
         },
         {
           "id": "geometry-surface-area-and-volume-sphere",
           "name": "Sphere",
-          "latex": "V_{\\text{sphere}}=\\frac{4}{3}\\pi r^3 \\quad\\quad SA_{\\text{sphere}}=4\\pi r^2"
+          "typst": "V_\"sphere\"=(4) / (3) pi r^3 ; ; S A_\"sphere\"=4 pi r^2"
         }
       ]
     },
@@ -315,42 +315,42 @@
         {
           "id": "geometry-transformations-translation",
           "name": "Translation",
-          "latex": "\\text{Translation: } (x,y)\\to(x+a,\\;y+b)"
+          "typst": "\"Translation:\" (x,y) -> (x+a, y+b)"
         },
         {
           "id": "geometry-transformations-reflection-x-axis",
           "name": "Reflection x-axis",
-          "latex": "\\text{Reflection over } x\\text{-axis: } (x,y)\\to(x,-y)"
+          "typst": "\"Reflection over\" x\"-axis:\" (x,y) -> (x,-y)"
         },
         {
           "id": "geometry-transformations-reflection-y-axis",
           "name": "Reflection y-axis",
-          "latex": "\\text{Reflection over } y\\text{-axis: } (x,y)\\to(-x,y)"
+          "typst": "\"Reflection over\" y\"-axis:\" (x,y) -> (-x,y)"
         },
         {
           "id": "geometry-transformations-reflection-y-x",
           "name": "Reflection y=x",
-          "latex": "\\text{Reflection over } y=x\\text{: } (x,y)\\to(y,x)"
+          "typst": "\"Reflection over\" y=x\":\" (x,y) -> (y,x)"
         },
         {
           "id": "geometry-transformations-rotation-90-ccw",
           "name": "Rotation 90 CCW",
-          "latex": "\\text{Rotation } 90^\\circ \\text{ CCW: } (x,y)\\to(-y,x)"
+          "typst": "\"Rotation\" 90 \"deg\" \"CCW:\" (x, y) -> (-y, x)"
         },
         {
           "id": "geometry-transformations-rotation-180",
           "name": "Rotation 180",
-          "latex": "\\text{Rotation } 180^\\circ\\text{: } (x,y)\\to(-x,-y)"
+          "typst": "\"Rotation\" 180 \"deg:\" (x, y) -> (-x, -y)"
         },
         {
           "id": "geometry-transformations-rotation-270-ccw",
           "name": "Rotation 270 CCW",
-          "latex": "\\text{Rotation } 270^\\circ \\text{ CCW: } (x,y)\\to(y,-x)"
+          "typst": "\"Rotation\" 270 \"deg\" \"CCW:\" (x, y) -> (y, -x)"
         },
         {
           "id": "geometry-transformations-dilation",
           "name": "Dilation",
-          "latex": "\\text{Dilation: } (x,y)\\to(kx,ky)"
+          "typst": "\"Dilation:\" (x,y) -> (k x,k y)"
         }
       ]
     }
