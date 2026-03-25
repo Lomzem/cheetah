@@ -555,7 +555,7 @@ function Home() {
         </div>
 
         {/* ── Right Panel: Preview / .tex ── */}
-        <div className="flex flex-col gap-4">
+        <div className="sticky top-6 flex flex-col gap-4 self-start">
           {/* Header with view toggle */}
           <div className="rounded-xl border border-border bg-card p-4">
             <div className="flex items-center justify-between">
