@@ -170,6 +170,8 @@ function Home() {
 
   const request = useMemo(() => buildCompileRequest(draft), [draft])
   const signature = useMemo(() => JSON.stringify(request), [request])
+  const hasSheetContent =
+    draft.selectedFormulaIds.length > 0 || draft.noteText.trim().length > 0
 
   const selectedGroups = useMemo(
     () => getSelectedFormulaGroups(draft.selectedFormulaIds),
@@ -211,6 +213,14 @@ function Home() {
       return
     }
 
+    if (!hasSheetContent) {
+      setPreviewState({
+        status: 'idle',
+        signature,
+      })
+      return
+    }
+
     const timer = window.setTimeout(async () => {
       const requestId = requestCounter.current + 1
       requestCounter.current = requestId
@@ -236,7 +246,16 @@ function Home() {
     return () => {
       window.clearTimeout(timer)
     }
-  }, [ready, request, signature])
+  }, [hasSheetContent, ready, request, signature])
+
+  useEffect(() => {
+    if (hasSheetContent || !pdfUrl) {
+      return
+    }
+
+    URL.revokeObjectURL(pdfUrl)
+    setPdfUrl(undefined)
+  }, [hasSheetContent, pdfUrl])
 
   useEffect(() => {
     if (!previewState.result?.ok || !previewState.result.pdfBase64) {
@@ -875,10 +894,10 @@ function Home() {
                   ) : (
                     <>
                       <p className="font-display text-sm font-bold text-foreground">
-                        No preview yet
+                        Nothing to generate yet
                       </p>
                       <p className="mt-1 text-xs text-muted-foreground">
-                        Select formulas to generate a preview.
+                        Select equations or add notes to generate a preview.
                       </p>
                     </>
                   )}
