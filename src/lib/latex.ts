@@ -117,6 +117,16 @@ export function renderLatexDocument(request: CompileRequest) {
   const fontSize = data.layoutMode === 'compact' ? '8pt' : '9pt'
   const columnSep = data.layoutMode === 'compact' ? '0.16in' : '0.22in'
   const formulaSpacing = data.layoutMode === 'compact' ? '0.3em' : '0.48em'
+  const content = [
+    formulaBody || '',
+    notes ? `\classheader{Notes}\n${notes}` : '',
+  ]
+    .filter(Boolean)
+    .join('\n\n')
+  const body =
+    data.columnCount === 1
+      ? content
+      : `\\begin{multicols*}{${data.columnCount}}\n\\raggedcolumns\n${content}\n\\end{multicols*}`
 
   return String.raw`\documentclass[letterpaper,${fontSize}]{extarticle}
 \usepackage[margin=0.35in]{geometry}
@@ -146,11 +156,7 @@ export function renderLatexDocument(request: CompileRequest) {
 \newcommand{\categoryheader}[1]{\section*{\sheetwrap{#1}}}
 \newcommand{\formulaentry}[2]{\sheetlabel{#1}\adjustbox{max width=\linewidth}{\ensuremath{\displaystyle #2}}\par\vspace{${formulaSpacing}}}
 \begin{document}
-\begin{multicols*}{${data.columnCount}}
-\raggedcolumns
-${formulaBody || ''}
-${notes ? `\n\\classheader{Notes}\n${notes}` : ''}
-\end{multicols*}
+${body}
 \end{document}
 `
 }
