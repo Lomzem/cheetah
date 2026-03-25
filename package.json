@@ -9,7 +9,6 @@
     "dev": "vite dev --port 3000",
     "build": "vite build",
     "preview": "vite preview",
-    "migrate:formulas": "python3 scripts/migrate_formulas.py",
     "test": "vitest run",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
