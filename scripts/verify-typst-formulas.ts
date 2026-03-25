@@ -28,7 +28,7 @@ const files = [
 const compiler = createTypstCompiler()
 
 await compiler.init({
-  getModule: () => pathToFileURL(wasmUrl).href,
+  getModule: () => ({ module_or_path: pathToFileURL(wasmUrl).href }),
   beforeBuild: [loadFonts([], { assets: ['text'] })],
 })
 

@@ -34,7 +34,7 @@ async function getCompiler() {
     compilerPromise = (async () => {
       const compiler = createTypstCompiler()
       await compiler.init({
-        getModule: () => compilerWasmUrl,
+        getModule: () => ({ module_or_path: compilerWasmUrl }),
         beforeBuild: [loadFonts([], { assets: ['text'] })],
       })
       return compiler
