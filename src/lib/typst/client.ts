@@ -42,45 +42,58 @@ const pending = new Map<
   }
 >()
 
+function createWorker() {
+  const nextWorker = new Worker(new URL('./worker.ts', import.meta.url), {
+    type: 'module',
+  })
+
+  nextWorker.onmessage = (event: MessageEvent<WorkerMessage>) => {
+    const message = event.data
+    const request = pending.get(message.id)
+    if (!request) {
+      return
+    }
+
+    pending.delete(message.id)
+
+    if (message.ok) {
+      request.resolve({
+        ok: true,
+        pdfData: new Uint8Array(message.pdfData),
+      })
+      return
+    }
+
+    request.resolve({
+      ok: false,
+      message: message.message,
+      diagnostics: message.diagnostics,
+    })
+  }
+
+  nextWorker.onerror = (event) => {
+    const error = new Error(event.message || 'Typst worker failed.')
+
+    nextWorker.terminate()
+
+    if (worker === nextWorker) {
+      worker = undefined
+    }
+
+    for (const request of pending.values()) {
+      request.reject(error)
+    }
+
+    pending.clear()
+  }
+
+  worker = nextWorker
+  return nextWorker
+}
+
 function getWorker() {
   if (!worker) {
-    worker = new Worker(new URL('./worker.ts', import.meta.url), {
-      type: 'module',
-    })
-
-    worker.onmessage = (event: MessageEvent<WorkerMessage>) => {
-      const message = event.data
-      const request = pending.get(message.id)
-      if (!request) {
-        return
-      }
-
-      pending.delete(message.id)
-
-      if (message.ok) {
-        request.resolve({
-          ok: true,
-          pdfData: new Uint8Array(message.pdfData),
-        })
-        return
-      }
-
-      request.resolve({
-        ok: false,
-        message: message.message,
-        diagnostics: message.diagnostics,
-      })
-    }
-
-    worker.onerror = (event) => {
-      const error = new Error(event.message || 'Typst worker failed.')
-
-      for (const request of pending.values()) {
-        request.reject(error)
-      }
-
-      pending.clear()
-    }
+    return createWorker()
   }
 
   return worker
