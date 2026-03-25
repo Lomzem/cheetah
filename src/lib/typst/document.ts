@@ -16,6 +16,8 @@ function escapeTypstText(input: string) {
   return input
     .replaceAll('\\', '\\\\')
     .replaceAll('#', '\\#')
+    .replaceAll('<', '\\<')
+    .replaceAll('>', '\\>')
     .replaceAll('[', '\\[')
     .replaceAll(']', '\\]')
     .replaceAll('*', '\\*')
@@ -49,17 +51,30 @@ function renderNotes(noteText: string) {
     .join('\n\n')
 }
 
+function isTextHeavyFormula(formula: string) {
+  return formula.includes('"')
+}
+
+function renderTextHeavyFormula(formula: string) {
+  return formula.replaceAll('"', '').replace(/\s+/g, ' ').trim()
+}
+
+function renderFormula(formula: { name: string; typst: string }) {
+  if (isTextHeavyFormula(formula.typst)) {
+    return `*${escapeTypstText(formula.name)}*
+#block(width: 100%)[${escapeTypstText(renderTextHeavyFormula(formula.typst))}]`
+  }
+
+  return `*${escapeTypstText(formula.name)}*
+$ ${formula.typst} $`
+}
+
 function renderFormulaGroups(selectedFormulaIds: string[]) {
   return getSelectedFormulaGroups(selectedFormulaIds)
     .map((classData) => {
       const categories = classData.categories
         .map((category) => {
-          const formulas = category.formulas
-            .map(
-              (formula) =>
-                `*${escapeTypstText(formula.name)}*\n$ ${formula.typst} $`,
-            )
-            .join('\n\n')
+          const formulas = category.formulas.map(renderFormula).join('\n\n')
 
           return `== ${escapeTypstText(category.name)}\n\n${formulas}`
         })
