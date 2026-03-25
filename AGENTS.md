@@ -1,3 +1,1 @@
 - ALWAYS use `bun` instead of `npm` or `node`
-- Draft state is intentionally client-only via `useSheetDraft()` in `src/lib/sheet.ts`.
-- Typst compilation runs in the browser via the worker under `src/lib/typst/`.
