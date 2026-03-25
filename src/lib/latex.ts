@@ -119,7 +119,7 @@ export function renderLatexDocument(request: CompileRequest) {
   const formulaSpacing = data.layoutMode === 'compact' ? '0.3em' : '0.48em'
   const content = [
     formulaBody || '',
-    notes ? `\classheader{Notes}\n${notes}` : '',
+    notes ? `\\classheader{Notes}\n${notes}` : '',
   ]
     .filter(Boolean)
     .join('\n\n')

@@ -13,7 +13,7 @@ import {
   X,
 } from 'lucide-react'
 import { AnimatePresence, LayoutGroup, motion } from 'motion/react'
-import { useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { MathFormula } from '#/components/math-formula'
 import ThemeToggle from '#/components/ThemeToggle'
 import {
@@ -37,7 +37,7 @@ type PreviewState = {
   result?: PreviewResult
 }
 
-const NOTES_DEBOUNCE_MS = 350
+const NOTES_DEBOUNCE_MS = 900
 const PREVIEW_DEBOUNCE_MS = 500
 const UI_PREFERENCES_STORAGE_KEY = 'cheetah-ui-preferences'
 
@@ -147,6 +147,68 @@ function buildPreviewQueryOptions(request: CompileRequest, signature: string) {
   })
 }
 
+type NotesEditorProps = {
+  draftNoteText: string
+  ready: boolean
+  onPersist: (noteText: string) => void
+  onReset: () => void
+}
+
+function NotesEditor({
+  draftNoteText,
+  ready,
+  onPersist,
+  onReset,
+}: NotesEditorProps) {
+  const [noteInput, setNoteInput] = useState(draftNoteText)
+
+  useEffect(() => {
+    setNoteInput(draftNoteText)
+  }, [draftNoteText])
+
+  useEffect(() => {
+    if (!ready || noteInput === draftNoteText) {
+      return
+    }
+
+    const timer = window.setTimeout(() => {
+      onPersist(noteInput)
+    }, NOTES_DEBOUNCE_MS)
+
+    return () => {
+      window.clearTimeout(timer)
+    }
+  }, [draftNoteText, noteInput, onPersist, ready])
+
+  return (
+    <div>
+      <div className="flex items-center justify-between">
+        <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+          Notes
+        </label>
+        <button
+          type="button"
+          onClick={() => {
+            setNoteInput(defaultSheetDraft.noteText)
+            onReset()
+          }}
+          className="inline-flex items-center gap-1 text-xs text-muted-foreground transition-colors hover:text-foreground"
+        >
+          <RotateCcw className="h-2.5 w-2.5" />
+          Reset
+        </button>
+      </div>
+      <textarea
+        value={noteInput}
+        onChange={(event) => setNoteInput(event.target.value.slice(0, 3000))}
+        rows={2}
+        placeholder="Reminders, bullets (lines starting with -)..."
+        className="mt-2 w-full rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground outline-none transition-colors placeholder:text-muted-foreground/60 focus:border-primary"
+      />
+    </div>
+  )
+}
+
 function Home() {
   const [activeClassId, setActiveClassId] = useState(
     () => readUiPreferences().activeClassId,
@@ -155,7 +217,6 @@ function Home() {
   const [pdfUrl, setPdfUrl] = useState<string>()
   const [isDownloadingPdf, setIsDownloadingPdf] = useState(false)
   const [showTex, setShowTex] = useState(() => readUiPreferences().showTex)
-  const [noteInput, setNoteInput] = useState(defaultSheetDraft.noteText)
   const [confirmClearAll, setConfirmClearAll] = useState(false)
 
   const { draft, ready, persistDraft } = useSheetDraft()
@@ -171,23 +232,22 @@ function Home() {
     writeUiPreferences({ activeClassId, showTex })
   }, [activeClassId, showTex])
 
-  useEffect(() => {
-    setNoteInput(draft.noteText)
-  }, [draft.noteText])
+  const persistNoteText = useCallback(
+    (noteText: string) => {
+      persistDraft({ noteText })
+    },
+    [persistDraft],
+  )
 
-  useEffect(() => {
-    if (!ready || noteInput === draft.noteText) {
-      return
-    }
-
-    const timer = window.setTimeout(() => {
-      persistDraft({ noteText: noteInput })
-    }, NOTES_DEBOUNCE_MS)
-
-    return () => {
-      window.clearTimeout(timer)
-    }
-  }, [draft.noteText, noteInput, persistDraft, ready])
+  const resetDraft = useCallback(() => {
+    persistDraft({
+      title: defaultSheetDraft.title,
+      columnCount: defaultSheetDraft.columnCount,
+      layoutMode: defaultSheetDraft.layoutMode,
+      selectedFormulaIds: defaultSheetDraft.selectedFormulaIds,
+      noteText: defaultSheetDraft.noteText,
+    })
+  }, [persistDraft])
 
   const request = useMemo(() => buildCompileRequest(draft), [draft])
   const signature = useMemo(() => JSON.stringify(request), [request])
@@ -463,39 +523,12 @@ function Home() {
           className="flex flex-col gap-6"
         >
           {/* Notes */}
-          <div>
-            <div className="flex items-center justify-between">
-              <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                Notes
-              </label>
-              <button
-                type="button"
-                onClick={() => {
-                  setNoteInput(defaultSheetDraft.noteText)
-                  persistDraft({
-                    title: defaultSheetDraft.title,
-                    columnCount: defaultSheetDraft.columnCount,
-                    layoutMode: defaultSheetDraft.layoutMode,
-                    selectedFormulaIds: defaultSheetDraft.selectedFormulaIds,
-                    noteText: defaultSheetDraft.noteText,
-                  })
-                }}
-                className="inline-flex items-center gap-1 text-xs text-muted-foreground transition-colors hover:text-foreground"
-              >
-                <RotateCcw className="h-2.5 w-2.5" />
-                Reset
-              </button>
-            </div>
-            <textarea
-              value={noteInput}
-              onChange={(event) =>
-                setNoteInput(event.target.value.slice(0, 3000))
-              }
-              rows={2}
-              placeholder="Reminders, bullets (lines starting with -)..."
-              className="mt-2 w-full rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground outline-none transition-colors placeholder:text-muted-foreground/60 focus:border-primary"
-            />
-          </div>
+          <NotesEditor
+            draftNoteText={draft.noteText}
+            ready={ready}
+            onPersist={persistNoteText}
+            onReset={resetDraft}
+          />
 
           {/* ── Formula Browser ── */}
           <div>
