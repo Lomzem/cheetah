@@ -12,6 +12,7 @@ import {
 } from 'lucide-react'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { MathFormula } from '#/components/math-formula'
+import ThemeToggle from '#/components/ThemeToggle'
 import {
   getFormulaClasses,
   getFormulaIndex,
@@ -281,23 +282,6 @@ function Home() {
             ))}
           </div>
 
-          {/* Status badges */}
-          <span className="rounded-md bg-secondary px-2.5 py-1.5 text-xs font-medium text-secondary-foreground">
-            {selectedCount} selected
-          </span>
-          {previewResult?.pageCount ? (
-            <span className="rounded-md bg-secondary px-2.5 py-1.5 text-xs font-medium text-secondary-foreground">
-              {previewResult.pageCount}p
-            </span>
-          ) : null}
-          {previewResult?.layoutMode === 'compact' ? (
-            <span className="rounded-md bg-accent px-2.5 py-1.5 text-xs font-medium text-accent-foreground">
-              Compact
-            </span>
-          ) : null}
-
-          <div className="h-5 w-px bg-border" />
-
           {/* Downloads */}
           <button
             type="button"
@@ -326,6 +310,9 @@ function Home() {
             )}
             PDF
           </button>
+          <div className="ml-auto">
+            <ThemeToggle />
+          </div>
       </section>
 
       {/* ── Workspace: two-panel ── */}
