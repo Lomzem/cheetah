@@ -52,7 +52,7 @@ function renderNotes(noteText: string) {
 }
 
 function isTextHeavyFormula(formula: string) {
-  return formula.includes('"')
+  return /^\s*"/.test(formula)
 }
 
 function renderTextHeavyFormula(formula: string) {
