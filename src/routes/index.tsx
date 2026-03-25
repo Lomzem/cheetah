@@ -593,7 +593,7 @@ function Home() {
             </div>
 
             {/* Formula list */}
-            <div className="max-h-[60vh] overflow-y-auto">
+            <div className="max-h-[60vh] overflow-y-auto pr-3">
               <AnimatePresence mode="wait">
                 {visibleClasses.length === 0 ? (
                   <motion.p
