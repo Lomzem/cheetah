@@ -1,3 +1,4 @@
+import { queryOptions, useQuery, useQueryClient } from '@tanstack/react-query'
 import { createFileRoute } from '@tanstack/react-router'
 import {
   ChevronDown,
@@ -12,7 +13,7 @@ import {
   X,
 } from 'lucide-react'
 import { AnimatePresence, LayoutGroup, motion } from 'motion/react'
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { MathFormula } from '#/components/math-formula'
 import ThemeToggle from '#/components/ThemeToggle'
 import {
@@ -37,6 +38,7 @@ type PreviewState = {
 }
 
 const NOTES_DEBOUNCE_MS = 350
+const PREVIEW_DEBOUNCE_MS = 500
 const UI_PREFERENCES_STORAGE_KEY = 'cheetah-ui-preferences'
 
 const formulaClasses = getFormulaClasses()
@@ -122,23 +124,42 @@ function buildCompileRequest(draft: SheetDraft): CompileRequest {
   }
 }
 
+function useDebouncedValue<T>(value: T, delay: number) {
+  const [debouncedValue, setDebouncedValue] = useState(value)
+
+  useEffect(() => {
+    const timer = window.setTimeout(() => {
+      setDebouncedValue(value)
+    }, delay)
+
+    return () => {
+      window.clearTimeout(timer)
+    }
+  }, [delay, value])
+
+  return debouncedValue
+}
+
+function buildPreviewQueryOptions(request: CompileRequest, signature: string) {
+  return queryOptions({
+    queryKey: ['compile-preview', signature],
+    queryFn: () => compilePreview({ data: request }),
+  })
+}
+
 function Home() {
   const [activeClassId, setActiveClassId] = useState(
     () => readUiPreferences().activeClassId,
   )
   const [search, setSearch] = useState('')
-  const [previewState, setPreviewState] = useState<PreviewState>({
-    status: 'idle',
-    signature: '',
-  })
   const [pdfUrl, setPdfUrl] = useState<string>()
   const [isDownloadingPdf, setIsDownloadingPdf] = useState(false)
   const [showTex, setShowTex] = useState(() => readUiPreferences().showTex)
   const [noteInput, setNoteInput] = useState(defaultSheetDraft.noteText)
   const [confirmClearAll, setConfirmClearAll] = useState(false)
-  const requestCounter = useRef(0)
 
   const { draft, ready, persistDraft } = useSheetDraft()
+  const queryClient = useQueryClient()
 
   useEffect(() => {
     if (!activeClassId && formulaClasses[0]) {
@@ -172,6 +193,17 @@ function Home() {
   const signature = useMemo(() => JSON.stringify(request), [request])
   const hasSheetContent =
     draft.selectedFormulaIds.length > 0 || draft.noteText.trim().length > 0
+  const debouncedRequest = useDebouncedValue(request, PREVIEW_DEBOUNCE_MS)
+  const debouncedSignature = useMemo(
+    () => JSON.stringify(debouncedRequest),
+    [debouncedRequest],
+  )
+
+  const previewQuery = useQuery({
+    ...buildPreviewQueryOptions(debouncedRequest, debouncedSignature),
+    enabled: ready && hasSheetContent,
+    placeholderData: (previousData) => previousData,
+  })
 
   const selectedGroups = useMemo(
     () => getSelectedFormulaGroups(draft.selectedFormulaIds),
@@ -209,46 +241,6 @@ function Home() {
   }, [activeClassId, search])
 
   useEffect(() => {
-    if (!ready) {
-      return
-    }
-
-    if (!hasSheetContent) {
-      setPreviewState({
-        status: 'idle',
-        signature,
-      })
-      return
-    }
-
-    const timer = window.setTimeout(async () => {
-      const requestId = requestCounter.current + 1
-      requestCounter.current = requestId
-      setPreviewState((current) => ({
-        status: 'loading',
-        signature,
-        result: current.signature === signature ? current.result : undefined,
-      }))
-
-      const result = await compilePreview({ data: request })
-
-      if (requestCounter.current !== requestId) {
-        return
-      }
-
-      setPreviewState({
-        status: result.ok ? 'ready' : 'error',
-        signature,
-        result,
-      })
-    }, 500)
-
-    return () => {
-      window.clearTimeout(timer)
-    }
-  }, [hasSheetContent, ready, request, signature])
-
-  useEffect(() => {
     if (hasSheetContent || !pdfUrl) {
       return
     }
@@ -258,18 +250,18 @@ function Home() {
   }, [hasSheetContent, pdfUrl])
 
   useEffect(() => {
-    if (!previewState.result?.ok || !previewState.result.pdfBase64) {
+    if (!previewQuery.data?.ok || !previewQuery.data.pdfBase64) {
       return
     }
 
     const url = URL.createObjectURL(
-      base64ToBlob(previewState.result.pdfBase64, 'application/pdf'),
+      base64ToBlob(previewQuery.data.pdfBase64, 'application/pdf'),
     )
     setPdfUrl((prev) => {
       if (prev) URL.revokeObjectURL(prev)
       return url
     })
-  }, [previewState.result])
+  }, [previewQuery.data])
 
   const activeClassFormulaIds = useMemo(() => {
     const classData = formulaClasses.find((c) => c.id === activeClassId)
@@ -312,11 +304,11 @@ function Home() {
   }
 
   async function resolvePdfForDownload() {
-    if (previewState.signature === signature && previewState.result) {
-      return previewState.result
+    if (!hasSheetContent) {
+      return undefined
     }
 
-    return compilePreview({ data: request })
+    return queryClient.fetchQuery(buildPreviewQueryOptions(request, signature))
   }
 
   async function handleDownloadPdf() {
@@ -324,7 +316,7 @@ function Home() {
 
     try {
       const result = await resolvePdfForDownload()
-      if (!result.ok || result.overflow || !result.pdfBase64) {
+      if (!result?.ok || result.overflow || !result.pdfBase64) {
         return
       }
 
@@ -339,8 +331,8 @@ function Home() {
 
   function handleDownloadTex() {
     const tex =
-      previewState.signature === signature && previewState.result?.tex
-        ? previewState.result.tex
+      debouncedSignature === signature && previewQuery.data?.tex
+        ? previewQuery.data.tex
         : renderLatexDocument(request)
 
     downloadBlob(
@@ -350,12 +342,43 @@ function Home() {
   }
 
   const selectedCount = draft.selectedFormulaIds.length
-  const previewResult = previewState.result
+  const previewResult = previewQuery.data
+  const previewState: PreviewState = !hasSheetContent
+    ? {
+        status: 'idle',
+        signature,
+      }
+    : previewQuery.isFetching
+      ? {
+          status: 'loading',
+          signature: debouncedSignature,
+          result: previewResult,
+        }
+      : previewResult
+        ? {
+            status: previewResult.ok ? 'ready' : 'error',
+            signature: debouncedSignature,
+            result: previewResult,
+          }
+        : previewQuery.isError
+          ? {
+              status: 'error',
+              signature: debouncedSignature,
+            }
+          : {
+              status: 'idle',
+              signature,
+            }
   const previewUnavailable =
     previewState.status === 'error' && !previewResult?.pdfBase64
+  const previewErrorMessage =
+    previewResult?.message ??
+    (previewQuery.error instanceof Error
+      ? previewQuery.error.message
+      : 'Unable to compile the document.')
 
   const texSource =
-    previewState.signature === signature && previewResult?.tex
+    debouncedSignature === signature && previewResult?.tex
       ? previewResult.tex
       : renderLatexDocument(request)
 
@@ -842,7 +865,7 @@ function Home() {
                 exit={{ opacity: 0, height: 0 }}
                 className="text-xs text-muted-foreground"
               >
-                {previewResult?.message}
+                {previewErrorMessage}
               </motion.p>
             ) : null}
           </AnimatePresence>
