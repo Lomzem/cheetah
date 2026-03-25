@@ -190,7 +190,7 @@
         {
           "id": "algebra-ii-matrices-2x2-inverse",
           "name": "2x2 Inverse",
-          "typst": "mat(a, b; c, d)^(-1) = (1) / (a d - b c) * mat(d, -b; -c, a)"
+          "typst": "mat(a, b; c, d)^(-1) = (1) / (a d - b c) dot mat(d, -b; -c, a)"
         },
         {
           "id": "algebra-ii-matrices-determinant",

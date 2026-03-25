@@ -59,7 +59,7 @@ const manualOverrides = new Map<string, string>([
   ],
   [
     '\\begin{bmatrix}a&b\\\\c&d\\end{bmatrix}^{-1}=\\frac{1}{ad-bc}\\begin{bmatrix}d&-b\\\\-c&a\\end{bmatrix}',
-    'mat(a, b; c, d)^(-1) = (1) / (a d - b c) * mat(d, -b; -c, a)',
+    'mat(a, b; c, d)^(-1) = (1) / (a d - b c) dot mat(d, -b; -c, a)',
   ],
   [
     '\\det\\begin{bmatrix}a&b\\\\c&d\\end{bmatrix}=ad-bc',

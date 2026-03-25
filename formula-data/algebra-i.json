@@ -305,12 +305,12 @@
         {
           "id": "algebra-i-rational-expressions-multiplication",
           "name": "Multiplication",
-          "typst": "((a) / (b)) * ((c) / (d)) = (a c) / (b d)"
+          "typst": "((a) / (b)) dot ((c) / (d)) = (a c) / (b d)"
         },
         {
           "id": "algebra-i-rational-expressions-division",
           "name": "Division",
-          "typst": "((a) / (b)) div ((c) / (d)) = ((a) / (b)) * ((d) / (c)) = (a d) / (b c)"
+          "typst": "((a) / (b)) div ((c) / (d)) = ((a) / (b)) dot ((d) / (c)) = (a d) / (b c)"
         }
       ]
     }
