@@ -36,7 +36,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       <head>
         <HeadContent />
       </head>
-      <body className="min-h-screen bg-[radial-gradient(circle_at_top_left,rgba(194,65,12,0.16),transparent_28%),radial-gradient(circle_at_top_right,rgba(245,158,11,0.14),transparent_26%),linear-gradient(180deg,#fffdf8_0%,#f8f2ea_48%,#fdfbf7_100%)] font-sans text-stone-900 [overflow-wrap:anywhere] selection:bg-orange-200/70 selection:text-orange-950">
+      <body className="min-h-screen bg-background font-sans text-foreground [overflow-wrap:anywhere] selection:bg-primary/20 selection:text-foreground">
         <Header />
         {children}
         <Footer />

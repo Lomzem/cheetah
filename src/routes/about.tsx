@@ -1,4 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router'
+import { BookOpen, Shield, Wrench } from 'lucide-react'
 
 export const Route = createFileRoute('/about')({
   component: About,
@@ -6,15 +7,15 @@ export const Route = createFileRoute('/about')({
 
 function About() {
   return (
-    <main className="mx-auto flex w-full max-w-5xl flex-col gap-6 px-4 py-12 sm:px-6 lg:px-8">
-      <section className="rounded-[2rem] border border-stone-200 bg-white/85 p-8 shadow-[0_24px_80px_-48px_rgba(120,53,15,0.45)] backdrop-blur">
-        <p className="mb-3 text-xs font-semibold uppercase tracking-[0.28em] text-orange-700">
+    <main className="mx-auto flex w-full max-w-4xl flex-col gap-8 px-4 py-12 lg:px-6">
+      <section>
+        <p className="text-xs font-bold uppercase tracking-widest text-primary">
           About
         </p>
-        <h1 className="font-serif text-4xl font-semibold tracking-tight text-stone-900 sm:text-5xl">
+        <h1 className="mt-3 font-display text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
           Build a printable math sheet without touching LaTeX.
         </h1>
-        <p className="mt-4 max-w-3xl text-base leading-8 text-stone-600">
+        <p className="mt-4 max-w-2xl text-base leading-relaxed text-muted-foreground">
           This prototype organizes formulas as JSON, stores draft selections in
           TanStack DB local storage, renders a locked LaTeX template, and uses a
           Tectonic-compatible compiler path for preview and export.
@@ -22,28 +23,38 @@ function About() {
       </section>
 
       <section className="grid gap-4 md:grid-cols-3">
-        {[
+        {(
           [
-            'Formula Library',
-            'Class-by-class JSON files with stable IDs and source-order rendering.',
-          ],
-          [
-            'Beginner-Friendly Builder',
-            'Tap formulas, choose columns, add notes, and download `.tex` or `.pdf`.',
-          ],
-          [
-            'Safe Compilation',
-            'The preview path only compiles generated templates, never arbitrary raw user LaTeX.',
-          ],
-        ].map(([title, body]) => (
+            [
+              BookOpen,
+              'Formula Library',
+              'Class-by-class JSON files with stable IDs and source-order rendering.',
+            ],
+            [
+              Wrench,
+              'Beginner-Friendly',
+              'Tap formulas, choose columns, add notes, and download .tex or .pdf.',
+            ],
+            [
+              Shield,
+              'Safe Compilation',
+              'The preview path only compiles generated templates, never arbitrary raw user LaTeX.',
+            ],
+          ] as const
+        ).map(([Icon, title, body]) => (
           <article
             key={title}
-            className="rounded-[1.5rem] border border-stone-200 bg-white/80 p-6 shadow-sm"
+            className="group rounded-xl border border-border bg-card p-6 transition-colors hover:border-primary/30"
           >
-            <h2 className="font-serif text-2xl font-semibold text-stone-900">
+            <div className="mb-4 inline-flex h-9 w-9 items-center justify-center rounded-lg bg-secondary text-foreground transition-colors group-hover:bg-primary group-hover:text-primary-foreground">
+              <Icon className="h-4 w-4" />
+            </div>
+            <h2 className="font-display text-base font-bold text-foreground">
               {title}
             </h2>
-            <p className="mt-3 text-sm leading-7 text-stone-600">{body}</p>
+            <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+              {body}
+            </p>
           </article>
         ))}
       </section>
