@@ -3,7 +3,7 @@ import { getSelectedFormulaGroups } from '#/lib/formulas/data'
 import { columnCountSchema, layoutModeSchema } from '#/lib/sheet'
 
 export const compileRequestSchema = z.object({
-  title: z.string().min(1).max(80),
+  title: z.string().max(80).optional().default(''),
   selectedFormulaIds: z.array(z.string()),
   columnCount: columnCountSchema,
   layoutMode: layoutModeSchema,
