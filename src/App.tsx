@@ -1,5 +1,8 @@
-import { queryOptions, useQuery, useQueryClient } from '@tanstack/react-query'
-import { createFileRoute } from '@tanstack/react-router'
+import {
+  GlobalWorkerOptions,
+  getDocument,
+} from 'pdfjs-dist/legacy/build/pdf.mjs'
+import pdfWorkerUrl from 'pdfjs-dist/legacy/build/pdf.worker.min.mjs?url'
 import {
   ChevronDown,
   Code,
@@ -13,7 +16,7 @@ import {
   X,
 } from 'lucide-react'
 import { AnimatePresence, LayoutGroup, motion } from 'motion/react'
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { MathFormula } from '#/components/math-formula'
 import ThemeToggle from '#/components/ThemeToggle'
 import {
@@ -21,15 +24,20 @@ import {
   getFormulaIndex,
   getSelectedFormulaGroups,
 } from '#/lib/formulas/data'
-import type { CompileRequest } from '#/lib/latex'
-import { renderLatexDocument } from '#/lib/latex'
 import type { SheetDraft } from '#/lib/sheet'
 import { defaultSheetDraft, useSheetDraft } from '#/lib/sheet'
-import { compilePreview } from '#/lib/server/sheet-actions'
+import { compileTypstPdf } from '#/lib/typst/client'
+import type { CompileRequest } from '#/lib/typst/document'
+import { renderTypstDocument } from '#/lib/typst/document'
 
-export const Route = createFileRoute('/')({ component: Home })
-
-type PreviewResult = Awaited<ReturnType<typeof compilePreview>>
+type PreviewResult = {
+  ok: boolean
+  typst: string
+  pdfData?: Uint8Array
+  pageCount?: number
+  overflow?: boolean
+  message?: string
+}
 
 type PreviewState = {
   status: 'idle' | 'loading' | 'ready' | 'error'
@@ -40,6 +48,8 @@ type PreviewState = {
 const NOTES_DEBOUNCE_MS = 900
 const PREVIEW_DEBOUNCE_MS = 500
 const UI_PREFERENCES_STORAGE_KEY = 'cheetah-ui-preferences'
+
+GlobalWorkerOptions.workerSrc = pdfWorkerUrl
 
 const formulaClasses = getFormulaClasses()
 const formulaIndex = getFormulaIndex()
@@ -108,10 +118,9 @@ function downloadBlob(blob: Blob, fileName: string) {
   URL.revokeObjectURL(url)
 }
 
-function base64ToBlob(base64: string, type: string) {
-  const binary = window.atob(base64)
-  const bytes = Uint8Array.from(binary, (char) => char.charCodeAt(0))
-  return new Blob([bytes], { type })
+function bytesToBlob(bytes: Uint8Array, type: string) {
+  const copy = new Uint8Array(bytes)
+  return new Blob([copy.buffer], { type })
 }
 
 function buildCompileRequest(draft: SheetDraft): CompileRequest {
@@ -140,11 +149,89 @@ function useDebouncedValue<T>(value: T, delay: number) {
   return debouncedValue
 }
 
-function buildPreviewQueryOptions(request: CompileRequest, signature: string) {
-  return queryOptions({
-    queryKey: ['compile-preview', signature],
-    queryFn: () => compilePreview({ data: request }),
-  })
+async function getPdfPageCount(pdfData: Uint8Array) {
+  const document = await getDocument({ data: pdfData }).promise
+  const pageCount = document.numPages
+  await document.destroy()
+  return pageCount
+}
+
+async function buildPreviewResult(source: string): Promise<PreviewResult> {
+  const compiled = await compileTypstPdf(source)
+
+  if (!compiled.ok) {
+    return {
+      ok: false,
+      typst: source,
+      message: compiled.message,
+    }
+  }
+
+  const pdfData = compiled.pdfData.slice()
+  const pageCount = await getPdfPageCount(pdfData.slice())
+
+  return {
+    ok: true,
+    typst: source,
+    pdfData,
+    pageCount,
+    overflow: pageCount > 2,
+  }
+}
+
+function useTypstPreview(source: string, enabled: boolean) {
+  const [data, setData] = useState<PreviewResult>()
+  const [isFetching, setIsFetching] = useState(false)
+  const [error, setError] = useState<Error>()
+  const requestIdRef = useRef(0)
+
+  useEffect(() => {
+    if (!enabled) {
+      requestIdRef.current += 1
+      setData(undefined)
+      setIsFetching(false)
+      setError(undefined)
+      return
+    }
+
+    const requestId = requestIdRef.current + 1
+    requestIdRef.current = requestId
+    setData(undefined)
+    setIsFetching(true)
+    setError(undefined)
+
+    buildPreviewResult(source)
+      .then((result) => {
+        if (requestIdRef.current !== requestId) {
+          return
+        }
+
+        setData(result)
+      })
+      .catch((nextError: unknown) => {
+        if (requestIdRef.current !== requestId) {
+          return
+        }
+
+        setData(undefined)
+        setError(
+          nextError instanceof Error
+            ? nextError
+            : new Error('Unable to compile the document.'),
+        )
+      })
+      .finally(() => {
+        if (requestIdRef.current === requestId) {
+          setIsFetching(false)
+        }
+      })
+  }, [enabled, source])
+
+  return {
+    data,
+    isFetching,
+    error,
+  }
 }
 
 type NotesEditorProps = {
@@ -220,7 +307,6 @@ function Home() {
   const [confirmClearAll, setConfirmClearAll] = useState(false)
 
   const { draft, ready, persistDraft } = useSheetDraft()
-  const queryClient = useQueryClient()
 
   useEffect(() => {
     if (!activeClassId && formulaClasses[0]) {
@@ -258,12 +344,15 @@ function Home() {
     () => JSON.stringify(debouncedRequest),
     [debouncedRequest],
   )
-
-  const previewQuery = useQuery({
-    ...buildPreviewQueryOptions(debouncedRequest, debouncedSignature),
-    enabled: ready && hasSheetContent,
-    placeholderData: (previousData) => previousData,
-  })
+  const typstSource = useMemo(
+    () => renderTypstDocument(debouncedRequest),
+    [debouncedRequest],
+  )
+  const immediateTypstSource = useMemo(
+    () => renderTypstDocument(request),
+    [request],
+  )
+  const previewQuery = useTypstPreview(typstSource, ready && hasSheetContent)
 
   const selectedGroups = useMemo(
     () => getSelectedFormulaGroups(draft.selectedFormulaIds),
@@ -288,7 +377,7 @@ function Home() {
                 classData.name,
                 category.name,
                 formula.name,
-                formula.latex,
+                formula.typst,
               ]
                 .join(' ')
                 .toLowerCase()
@@ -310,12 +399,19 @@ function Home() {
   }, [hasSheetContent, pdfUrl])
 
   useEffect(() => {
-    if (!previewQuery.data?.ok || !previewQuery.data.pdfBase64) {
+    if (!previewQuery.data?.ok || !previewQuery.data.pdfData) {
+      setPdfUrl((prev) => {
+        if (prev) {
+          URL.revokeObjectURL(prev)
+        }
+
+        return undefined
+      })
       return
     }
 
     const url = URL.createObjectURL(
-      base64ToBlob(previewQuery.data.pdfBase64, 'application/pdf'),
+      bytesToBlob(previewQuery.data.pdfData, 'application/pdf'),
     )
     setPdfUrl((prev) => {
       if (prev) URL.revokeObjectURL(prev)
@@ -368,7 +464,7 @@ function Home() {
       return undefined
     }
 
-    return queryClient.fetchQuery(buildPreviewQueryOptions(request, signature))
+    return buildPreviewResult(immediateTypstSource)
   }
 
   async function handleDownloadPdf() {
@@ -376,12 +472,12 @@ function Home() {
 
     try {
       const result = await resolvePdfForDownload()
-      if (!result?.ok || result.overflow || !result.pdfBase64) {
+      if (!result?.ok || result.overflow || !result.pdfData) {
         return
       }
 
       downloadBlob(
-        base64ToBlob(result.pdfBase64, 'application/pdf'),
+        bytesToBlob(result.pdfData, 'application/pdf'),
         `${draft.title || 'cheat-sheet'}.pdf`,
       )
     } finally {
@@ -389,15 +485,15 @@ function Home() {
     }
   }
 
-  function handleDownloadTex() {
-    const tex =
-      debouncedSignature === signature && previewQuery.data?.tex
-        ? previewQuery.data.tex
-        : renderLatexDocument(request)
+  function handleDownloadTypst() {
+    const typst =
+      debouncedSignature === signature && previewQuery.data?.typst
+        ? previewQuery.data.typst
+        : immediateTypstSource
 
     downloadBlob(
-      new Blob([tex], { type: 'application/x-tex' }),
-      `${draft.title || 'cheat-sheet'}.tex`,
+      new Blob([typst], { type: 'text/plain;charset=utf-8' }),
+      `${draft.title || 'cheat-sheet'}.typ`,
     )
   }
 
@@ -420,7 +516,7 @@ function Home() {
             signature: debouncedSignature,
             result: previewResult,
           }
-        : previewQuery.isError
+        : previewQuery.error
           ? {
               status: 'error',
               signature: debouncedSignature,
@@ -430,17 +526,17 @@ function Home() {
               signature,
             }
   const previewUnavailable =
-    previewState.status === 'error' && !previewResult?.pdfBase64
+    previewState.status === 'error' && !previewResult?.pdfData
   const previewErrorMessage =
     previewResult?.message ??
     (previewQuery.error instanceof Error
       ? previewQuery.error.message
       : 'Unable to compile the document.')
 
-  const texSource =
-    debouncedSignature === signature && previewResult?.tex
-      ? previewResult.tex
-      : renderLatexDocument(request)
+  const typstSourceForView =
+    debouncedSignature === signature && previewResult?.typst
+      ? previewResult.typst
+      : immediateTypstSource
 
   return (
     <div className="mx-auto flex min-h-screen w-full max-w-[1440px] flex-col px-5 lg:px-8">
@@ -481,11 +577,11 @@ function Home() {
           {/* Downloads */}
           <button
             type="button"
-            onClick={handleDownloadTex}
+            onClick={handleDownloadTypst}
             className="inline-flex items-center gap-1 px-2 py-1 text-xs font-medium text-muted-foreground transition-colors hover:text-foreground"
           >
             <FileText className="h-3 w-3" />
-            .tex
+            .typ
           </button>
           <button
             type="button"
@@ -676,7 +772,7 @@ function Home() {
                                         {formula.name}
                                       </p>
                                       <div className="mt-1.5 overflow-x-auto text-foreground">
-                                        <MathFormula latex={formula.latex} />
+                                        <MathFormula typst={formula.typst} />
                                       </div>
                                     </div>
                                   </label>
@@ -850,7 +946,7 @@ function Home() {
                     />
                   ) : null}
                   <Code className="relative z-10 h-3 w-3" />
-                  <span className="relative z-10">.tex</span>
+                  <span className="relative z-10">.typ</span>
                 </button>
               </div>
             </LayoutGroup>
@@ -910,7 +1006,7 @@ function Home() {
               transition={{ duration: 0.12 }}
               className={`col-start-1 row-start-1 h-[75vh] min-h-[500px] overflow-auto bg-card p-4 font-mono text-[11px] leading-relaxed text-foreground ${showTex ? 'z-10' : 'z-0 pointer-events-none'}`}
             >
-              {texSource}
+              {typstSourceForView}
             </motion.pre>
 
             {pdfUrl ? (
@@ -966,3 +1062,5 @@ function Home() {
     </div>
   )
 }
+
+export default Home

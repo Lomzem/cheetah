@@ -9,7 +9,7 @@
         {
           "id": "pre-algebra-order-of-operations-pemdas-pemdas-definition",
           "name": "PEMDAS Definition",
-          "latex": "\\text{Parentheses} \\to \\text{Exponents} \\to \\text{Multiply/Divide} \\to \\text{Add/Subtract}"
+          "typst": "\"Parentheses\" arrow.r \"Exponents\" arrow.r \"Multiply/Divide\" arrow.r \"Add/Subtract\""
         }
       ]
     },
@@ -20,22 +20,22 @@
         {
           "id": "pre-algebra-fractions-addition",
           "name": "Addition",
-          "latex": "\\frac{a}{b}+\\frac{c}{d}=\\frac{ad+bc}{bd}"
+          "typst": "(a) / (b)+(c) / (d)=(a d+b c) / (b d)"
         },
         {
           "id": "pre-algebra-fractions-subtraction",
           "name": "Subtraction",
-          "latex": "\\frac{a}{b}-\\frac{c}{d}=\\frac{ad-bc}{bd}"
+          "typst": "(a) / (b)-(c) / (d)=(a d-b c) / (b d)"
         },
         {
           "id": "pre-algebra-fractions-multiplication",
           "name": "Multiplication",
-          "latex": "\\frac{a}{b}\\cdot\\frac{c}{d}=\\frac{ac}{bd}"
+          "typst": "(a) / (b) dot.op (c) / (d)=(a c) / (b d)"
         },
         {
           "id": "pre-algebra-fractions-division",
           "name": "Division",
-          "latex": "\\frac{a}{b}\\div\\frac{c}{d}=\\frac{a}{b}\\cdot\\frac{d}{c}=\\frac{ad}{bc}"
+          "typst": "(a) / (b) div (c) / (d)=(a) / (b) dot.op (d) / (c)=(a d) / (b c)"
         }
       ]
     },
@@ -46,12 +46,12 @@
         {
           "id": "pre-algebra-ratios-and-proportions-proportion",
           "name": "Proportion",
-          "latex": "\\frac{a}{b}=\\frac{c}{d}\\implies ad=bc"
+          "typst": "(a) / (b)=(c) / (d) arrow.r.double a d=b c"
         },
         {
           "id": "pre-algebra-ratios-and-proportions-unit-rate",
           "name": "Unit Rate",
-          "latex": "\\text{Unit Rate}=\\frac{\\text{Total}}{\\text{Number of Units}}"
+          "typst": "\"Unit Rate\"=(\"Total\") / (\"Number of Units\")"
         }
       ]
     },
@@ -62,27 +62,27 @@
         {
           "id": "pre-algebra-properties-of-numbers-commutative",
           "name": "Commutative",
-          "latex": "a+b=b+a"
+          "typst": "a+b=b+a"
         },
         {
           "id": "pre-algebra-properties-of-numbers-associative",
           "name": "Associative",
-          "latex": "(a+b)+c=a+(b+c)"
+          "typst": "(a+b)+c=a+(b+c)"
         },
         {
           "id": "pre-algebra-properties-of-numbers-distributive",
           "name": "Distributive",
-          "latex": "a(b+c)=ab+ac"
+          "typst": "a(b+c)=a b+a c"
         },
         {
           "id": "pre-algebra-properties-of-numbers-identity",
           "name": "Identity",
-          "latex": "a+0=a"
+          "typst": "a+0=a"
         },
         {
           "id": "pre-algebra-properties-of-numbers-inverse",
           "name": "Inverse",
-          "latex": "a+(-a)=0"
+          "typst": "a+(-a)=0"
         }
       ]
     },
@@ -93,22 +93,22 @@
         {
           "id": "pre-algebra-area-and-perimeter-rectangle-area-perimeter",
           "name": "Rectangle Area/Perimeter",
-          "latex": "A_{\\text{rect}}=lw \\quad\\quad P_{\\text{rect}}=2l+2w"
+          "typst": "A_\"rect\"=l w space.quad P_\"rect\"=2l+2w"
         },
         {
           "id": "pre-algebra-area-and-perimeter-triangle-area",
           "name": "Triangle Area",
-          "latex": "A_{\\text{tri}}=\\frac{1}{2}bh"
+          "typst": "A_\"tri\"=(1) / (2)b h"
         },
         {
           "id": "pre-algebra-area-and-perimeter-circle-area-circumference",
           "name": "Circle Area/Circumference",
-          "latex": "A_{\\text{circle}}=\\pi r^2 \\quad\\quad C=2\\pi r"
+          "typst": "A_\"circle\"= pi r^2 space.quad C=2 pi r"
         },
         {
           "id": "pre-algebra-area-and-perimeter-rectangular-prism-volume",
           "name": "Rectangular Prism Volume",
-          "latex": "V_{\\text{rect prism}}=lwh"
+          "typst": "V_\"rect prism\"=l w h"
         }
       ]
     },
@@ -119,17 +119,17 @@
         {
           "id": "pre-algebra-solving-equations-linear-solution",
           "name": "Linear Solution",
-          "latex": "ax+b=c \\implies x=\\frac{c-b}{a}"
+          "typst": "a x+b=c arrow.r.double x=(c-b) / (a)"
         },
         {
           "id": "pre-algebra-solving-equations-absolute-value",
           "name": "Absolute Value",
-          "latex": "|x|=a \\implies x=a \\text{ or } x=-a"
+          "typst": "|x|=a arrow.r.double x=a \"or\" x=-a"
         },
         {
           "id": "pre-algebra-solving-equations-transitive-property",
           "name": "Transitive Property",
-          "latex": "\\text{If } a=b \\text{ and } b=c, \\text{ then } a=c"
+          "typst": "\"If\" a=b \"and\" b=c, \"then\" a=c"
         }
       ]
     }

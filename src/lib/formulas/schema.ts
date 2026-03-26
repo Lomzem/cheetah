@@ -3,7 +3,7 @@ import { z } from 'zod'
 export const formulaSchema = z.object({
   id: z.string().min(1),
   name: z.string().min(1),
-  latex: z.string().min(1),
+  typst: z.string().min(1),
 })
 
 export const formulaCategorySchema = z.object({

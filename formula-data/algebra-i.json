@@ -9,22 +9,22 @@
         {
           "id": "algebra-i-linear-equations-slope-formula",
           "name": "Slope Formula",
-          "latex": "m=\\frac{y_2-y_1}{x_2-x_1}"
+          "typst": "m=(y_2-y_1) / (x_2-x_1)"
         },
         {
           "id": "algebra-i-linear-equations-point-slope-form",
           "name": "Point-Slope Form",
-          "latex": "y-y_1=m(x-x_1)"
+          "typst": "y-y_1=m(x-x_1)"
         },
         {
           "id": "algebra-i-linear-equations-slope-intercept-form",
           "name": "Slope-Intercept Form",
-          "latex": "y=mx+b"
+          "typst": "y=m x+b"
         },
         {
           "id": "algebra-i-linear-equations-standard-form",
           "name": "Standard Form",
-          "latex": "Ax+By=C"
+          "typst": "A x+B y=C"
         }
       ]
     },
@@ -35,22 +35,22 @@
         {
           "id": "algebra-i-inequalities-multiply-by-positive",
           "name": "Multiply by Positive",
-          "latex": "\\text{If } a>b \\text{ and } c>0, \\text{ then } ac>bc"
+          "typst": "\"If\" a>b \"and\" c>0, \"then\" a c>b c"
         },
         {
           "id": "algebra-i-inequalities-multiply-by-negative",
           "name": "Multiply by Negative",
-          "latex": "\\text{If } a>b \\text{ and } c<0, \\text{ then } ac<bc"
+          "typst": "\"If\" a>b \"and\" c<0, \"then\" a c<b c"
         },
         {
           "id": "algebra-i-inequalities-absolute-less-than",
           "name": "Absolute Less Than",
-          "latex": "|x|<a \\implies -a<x<a"
+          "typst": "|x|<a arrow.r.double -a<x<a"
         },
         {
           "id": "algebra-i-inequalities-absolute-greater-than",
           "name": "Absolute Greater Than",
-          "latex": "|x|>a \\implies x>a \\text{ or } x<-a"
+          "typst": "|x|>a arrow.r.double x>a \"or\" x<-a"
         }
       ]
     },
@@ -61,27 +61,27 @@
         {
           "id": "algebra-i-integer-rules-positive-x-positive",
           "name": "Positive x Positive",
-          "latex": "(+)(+)=+"
+          "typst": "(+)(+)=+"
         },
         {
           "id": "algebra-i-integer-rules-negative-x-negative",
           "name": "Negative x Negative",
-          "latex": "(-)(-)=+"
+          "typst": "(-)(-)=+"
         },
         {
           "id": "algebra-i-integer-rules-positive-x-negative",
           "name": "Positive x Negative",
-          "latex": "(+)(-)=-"
+          "typst": "(+)(-)=-"
         },
         {
           "id": "algebra-i-integer-rules-negative-x-positive",
           "name": "Negative x Positive",
-          "latex": "(-)(+)=-"
+          "typst": "(-)(+)=-"
         },
         {
           "id": "algebra-i-integer-rules-subtracting-negatives",
           "name": "Subtracting Negatives",
-          "latex": "a-(-b)=a+b"
+          "typst": "a-(-b)=a+b"
         }
       ]
     },
@@ -92,22 +92,22 @@
         {
           "id": "algebra-i-decimals-and-percents-percent-formula",
           "name": "Percent Formula",
-          "latex": "\\text{Percent}=\\frac{\\text{Part}}{\\text{Whole}}\\times 100"
+          "typst": "\"Percent\"=(\"Part\") / (\"Whole\") times 100"
         },
         {
           "id": "algebra-i-decimals-and-percents-part-formula",
           "name": "Part Formula",
-          "latex": "\\text{Part}=\\text{Whole}\\times\\frac{\\text{Percent}}{100}"
+          "typst": "\"Part\"=\"Whole\" times (\"Percent\") / (100)"
         },
         {
           "id": "algebra-i-decimals-and-percents-decimal-to-percent",
           "name": "Decimal to Percent",
-          "latex": "\\text{Decimal to Percent: move decimal 2 places right}"
+          "typst": "\"Decimal to Percent: move decimal 2 places right\""
         },
         {
           "id": "algebra-i-decimals-and-percents-percent-to-decimal",
           "name": "Percent to Decimal",
-          "latex": "\\text{Percent to Decimal: move decimal 2 places left}"
+          "typst": "\"Percent to Decimal: move decimal 2 places left\""
         }
       ]
     },
@@ -118,17 +118,17 @@
         {
           "id": "algebra-i-mean-median-mode-mean",
           "name": "Mean",
-          "latex": "\\text{Mean}=\\frac{\\text{Sum of values}}{\\text{Number of values}}"
+          "typst": "\"Mean\"=(\"Sum of values\") / (\"Number of values\")"
         },
         {
           "id": "algebra-i-mean-median-mode-median",
           "name": "Median",
-          "latex": "\\text{Median: middle value when sorted}"
+          "typst": "\"Median: middle value when sorted\""
         },
         {
           "id": "algebra-i-mean-median-mode-mode",
           "name": "Mode",
-          "latex": "\\text{Mode: most frequently occurring value}"
+          "typst": "\"Mode: most frequently occurring value\""
         }
       ]
     },
@@ -139,22 +139,22 @@
         {
           "id": "algebra-i-quadratic-equations-standard-form",
           "name": "Standard Form",
-          "latex": "ax^2+bx+c=0"
+          "typst": "a x^2+b x+c=0"
         },
         {
           "id": "algebra-i-quadratic-equations-quadratic-formula",
           "name": "Quadratic Formula",
-          "latex": "x=\\frac{-b\\pm\\sqrt{b^2-4ac}}{2a}"
+          "typst": "x = (-b plus.minus sqrt(b^2 - 4 a c)) / (2 a)"
         },
         {
           "id": "algebra-i-quadratic-equations-vertex-form",
           "name": "Vertex Form",
-          "latex": "y=a(x-h)^2+k"
+          "typst": "y=a(x-h)^2+k"
         },
         {
           "id": "algebra-i-quadratic-equations-axis-of-symmetry",
           "name": "Axis of Symmetry",
-          "latex": "x=-\\frac{b}{2a}"
+          "typst": "x=-(b) / (2a)"
         }
       ]
     },
@@ -165,22 +165,22 @@
         {
           "id": "algebra-i-polynomials-perfect-square-addition",
           "name": "Perfect Square (Addition)",
-          "latex": "(a+b)^2=a^2+2ab+b^2"
+          "typst": "(a+b)^2=a^2+2a b+b^2"
         },
         {
           "id": "algebra-i-polynomials-perfect-square-subtraction",
           "name": "Perfect Square (Subtraction)",
-          "latex": "(a-b)^2=a^2-2ab+b^2"
+          "typst": "(a-b)^2=a^2-2a b+b^2"
         },
         {
           "id": "algebra-i-polynomials-difference-of-squares",
           "name": "Difference of Squares",
-          "latex": "a^2-b^2=(a-b)(a+b)"
+          "typst": "a^2-b^2=(a-b)(a+b)"
         },
         {
           "id": "algebra-i-polynomials-foil",
           "name": "FOIL",
-          "latex": "(a+b)(c+d)=ac+ad+bc+bd"
+          "typst": "(a+b)(c+d)=a c+a d+b c+b d"
         }
       ]
     },
@@ -191,32 +191,32 @@
         {
           "id": "algebra-i-exponents-product-rule",
           "name": "Product Rule",
-          "latex": "a^m a^n = a^{m+n}"
+          "typst": "a^m a^n = a^(m+n)"
         },
         {
           "id": "algebra-i-exponents-quotient-rule",
           "name": "Quotient Rule",
-          "latex": "\\frac{a^m}{a^n}=a^{m-n}"
+          "typst": "(a^m) / (a^n)=a^(m-n)"
         },
         {
           "id": "algebra-i-exponents-power-rule",
           "name": "Power Rule",
-          "latex": "(a^m)^n=a^{mn}"
+          "typst": "(a^m)^n=a^(m n)"
         },
         {
           "id": "algebra-i-exponents-negative-exponent",
           "name": "Negative Exponent",
-          "latex": "a^{-n}=\\frac{1}{a^n}"
+          "typst": "a^(-n)=(1) / (a^n)"
         },
         {
           "id": "algebra-i-exponents-zero-exponent",
           "name": "Zero Exponent",
-          "latex": "a^0=1"
+          "typst": "a^0=1"
         },
         {
           "id": "algebra-i-exponents-radical-to-exponent",
           "name": "Radical to Exponent",
-          "latex": "\\sqrt[n]{a^m}=a^{m/n}"
+          "typst": "root(n, a^m)=a^(m/n)"
         }
       ]
     },
@@ -227,22 +227,22 @@
         {
           "id": "algebra-i-radicals-product-rule",
           "name": "Product Rule",
-          "latex": "\\sqrt{ab}=\\sqrt{a}\\cdot\\sqrt{b}"
+          "typst": "sqrt(a b)=sqrt(a) dot.op sqrt(b)"
         },
         {
           "id": "algebra-i-radicals-quotient-rule",
           "name": "Quotient Rule",
-          "latex": "\\sqrt{\\frac{a}{b}}=\\frac{\\sqrt{a}}{\\sqrt{b}}"
+          "typst": "sqrt((a) / (b))=(sqrt(a)) / (sqrt(b))"
         },
         {
           "id": "algebra-i-radicals-like-radicals",
           "name": "Like Radicals",
-          "latex": "a\\sqrt{b}+c\\sqrt{b}=(a+c)\\sqrt{b}"
+          "typst": "a sqrt(b)+c sqrt(b)=(a+c)sqrt(b)"
         },
         {
           "id": "algebra-i-radicals-square-of-square-root",
           "name": "Square of Square Root",
-          "latex": "(\\sqrt{a})^2=a"
+          "typst": "(sqrt(a))^2=a"
         }
       ]
     },
@@ -253,22 +253,22 @@
         {
           "id": "algebra-i-functions-function-notation",
           "name": "Function Notation",
-          "latex": "f(x)=y"
+          "typst": "f(x)=y"
         },
         {
           "id": "algebra-i-functions-domain",
           "name": "Domain",
-          "latex": "\\text{Domain: all valid input } x \\text{ values}"
+          "typst": "\"Domain: all valid input\" x \"values\""
         },
         {
           "id": "algebra-i-functions-range",
           "name": "Range",
-          "latex": "\\text{Range: all output } y \\text{ values}"
+          "typst": "\"Range: all output\" y \"values\""
         },
         {
           "id": "algebra-i-functions-vertical-line-test",
           "name": "Vertical Line Test",
-          "latex": "\\text{Vertical Line Test: each } x \\to \\text{one } y"
+          "typst": "\"Vertical Line Test: each\" x arrow.r \"one\" y"
         }
       ]
     },
@@ -279,22 +279,22 @@
         {
           "id": "algebra-i-absolute-value-definition",
           "name": "Definition",
-          "latex": "|a| =\\begin{cases} a & a \\ge 0 \\\\ -a & a < 0 \\end{cases}"
+          "typst": "abs(a) = cases(a & a >= 0, -a & a < 0)"
         },
         {
           "id": "algebra-i-absolute-value-product",
           "name": "Product",
-          "latex": "|a \\cdot b| = |a||b|"
+          "typst": "|a dot.op b| = |a||b|"
         },
         {
           "id": "algebra-i-absolute-value-quotient",
           "name": "Quotient",
-          "latex": "\\left|\\frac{a}{b}\\right| = \\frac{|a|}{|b|}"
+          "typst": "abs((a) / (b)) = abs(a) / abs(b)"
         },
         {
           "id": "algebra-i-absolute-value-triangle-inequality",
           "name": "Triangle Inequality",
-          "latex": "|a+b| \\le |a| + |b|"
+          "typst": "|a+b| <= |a| + |b|"
         }
       ]
     },
@@ -305,12 +305,12 @@
         {
           "id": "algebra-i-rational-expressions-multiplication",
           "name": "Multiplication",
-          "latex": "\\left(\\frac{a}{b}\\right)\\left(\\frac{c}{d}\\right)=\\frac{ac}{bd}"
+          "typst": "((a) / (b)) dot ((c) / (d)) = (a c) / (b d)"
         },
         {
           "id": "algebra-i-rational-expressions-division",
           "name": "Division",
-          "latex": "\\left(\\frac{a}{b}\\right)\\div\\left(\\frac{c}{d}\\right)=\\left(\\frac{a}{b}\\right)\\left(\\frac{d}{c}\\right)=\\frac{ad}{bc}"
+          "typst": "((a) / (b)) div ((c) / (d)) = ((a) / (b)) dot ((d) / (c)) = (a d) / (b c)"
         }
       ]
     }
