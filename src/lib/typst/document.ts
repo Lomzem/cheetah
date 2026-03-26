@@ -24,6 +24,7 @@ function escapeTypstText(input: string) {
     .replaceAll('_', '\\_')
     .replaceAll('`', '\\`')
     .replaceAll('$', '\\$')
+    .replaceAll('@', '\\@')
 }
 
 const textHeavySymbolMap = new Map([
