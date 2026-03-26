@@ -331,8 +331,16 @@ function splitUnknownWords(input: string) {
         return segment
       }
 
-      return segment.replace(/[A-Za-z]+/g, (word) => {
+      return segment.replace(/[A-Za-z_][A-Za-z0-9_.]*/g, (word) => {
+        if (/^[A-Za-z_][A-Za-z0-9_]*(\.[A-Za-z_][A-Za-z0-9_]*)+$/.test(word)) {
+          return word
+        }
+
         if (keepWords.has(word)) {
+          return word
+        }
+
+        if (!/^[A-Za-z]+$/.test(word)) {
           return word
         }
 
