@@ -187,6 +187,7 @@ function useTypstPreview(source: string, enabled: boolean) {
 
   useEffect(() => {
     if (!enabled) {
+      requestIdRef.current += 1
       setData(undefined)
       setIsFetching(false)
       setError(undefined)
